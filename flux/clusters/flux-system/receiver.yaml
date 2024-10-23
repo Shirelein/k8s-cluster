@@ -20,7 +20,8 @@ spec:
         path: /
         backend:
           service:
-            name: webhook-flux-receiver
+            # pre-defined by flux
+            name: webhook-receiver
             port:
               name: http
 ---
