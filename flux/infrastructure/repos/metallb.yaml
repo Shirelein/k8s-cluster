@@ -1,0 +1,8 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: metallb
+  namespace: flux-system # needed for renovate
+spec:
+  interval: 3h # fetch index file every 3 hours
+  url: https://metallb.github.io/metallb
