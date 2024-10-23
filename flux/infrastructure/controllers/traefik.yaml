@@ -13,6 +13,7 @@ spec:
       version: '31.1.1'
       sourceRef:
         kind: HelmRepository
+        namespace: flux-system
         name: traefik-charts
       interval: 5m
   upgrade:
