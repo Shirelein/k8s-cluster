@@ -1,0 +1,9 @@
+# https://fluxcd.io/flux/components/source/helmrepositories/#helm-oci-repository
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: forgejo
+  namespace: flux-system # needed for renovate
+spec:
+  type: oci
+  url: oci://code.forgejo.org/forgejo-helm
