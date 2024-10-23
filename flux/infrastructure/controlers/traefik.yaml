@@ -1,0 +1,51 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: traefik
+      version: '31.1.1'
+      sourceRef:
+        kind: HelmRepository
+        name: traefik-charts
+      interval: 5m
+      upgrade:
+        crds: CreateReplace
+  releaseName: traefik
+  values:
+    deployment:
+      replicas: 2
+    ports:
+      web:
+        port: 80
+        redirectTo:
+          port: websecure
+          priority: 1
+      ssh-next:
+        port: 2020
+        exposedPort: 2020
+        # https://github.com/traefik/traefik-helm-chart/blob/v32.1.1/traefik/values.yaml#L611-L614
+        expose:
+          default: true
+    service:
+      annotations:
+        metallb.universe.tf/loadBalancerIPs: 188.40.16.47,2a01:4f8:fff2:48::2
+      spec:
+        externalTrafficPolicy: Local
+        ipFamilyPolicy: PreferDualStack
+    logs:
+      general:
+        level: INFO
+      access:
+        enabled: true
+        fields:
+          headers:
+            # https://github.com/traefik/traefik-helm-chart/blob/v32.1.1/traefik/values.yaml#L365-L369
+            names:
+              User-Agent: keep
+
