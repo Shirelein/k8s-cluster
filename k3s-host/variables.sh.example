@@ -1,0 +1,45 @@
+#!/bin/bash
+
+K3S_VERSION=v1.30.5+k3s1
+TRAEFIK_VERSION=32.1.1
+
+nodes="5 6"
+
+node_interface=(
+	[3]=enp5s0
+	[5]=enp5s0
+	[6]=enp5s0
+)
+
+node_ipv4=(
+	[5]=88.198.58.177
+	[6]=65.108.204.171
+)
+
+node_ipv6=(
+	[5]=2a01:4f8:222:507::2
+	[6]=2a01:4f9:1a:a082::2
+)
+
+failover_ipv4=188.40.16.47
+failover_ipv4_range=32
+failover_ipv6=2a01:4f8:fff2:48::2
+failover_ipv6_range=48
+
+node_drbd_vlan=4000
+node_drbd_resource=r1
+node_drbd_ipv4_prefix=10.53.100
+node_drbd_device=(
+	[5]=/dev/nvme0n1
+	[6]=/dev/nvme0n1
+)
+
+node_nfs_vlan=4001
+node_nfs_ipv4_prefix=10.53.101
+node_nfs_server=$node_nfs_ipv4_prefix.100
+
+node_k8s_vlan=4002
+node_k8s_ipv4_prefix=10.88.1
+node_k8s_ipv6_prefix=fd10
+node_k8s_cidr="--cluster-cidr=10.42.0.0/16,fd01::/48 --service-cidr=10.43.0.0/16,fd02::/112"
+node_k8s_etcd=3

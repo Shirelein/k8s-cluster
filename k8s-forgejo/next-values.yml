@@ -1,0 +1,102 @@
+image:
+  registry: codeberg.org
+  repository: forgejo-experimental/forgejo
+  tag: '8.0-test'
+  rootless: false
+
+ingress:
+  annotations:
+    # https://doc.traefik.io/traefik/v3.1/routing/providers/kubernetes-ingress/#on-ingress
+    # reference middlewares via `<namspace>-<name>@kubernetescrd`
+    traefik.ingress.kubernetes.io/router.middlewares: default-forgejo-ratelimit@kubernetescrd
+  tls:
+    - hosts:
+        - next.forgejo.org
+      secretName: tls-forgejo-next-ingress-http
+  hosts:
+    - host: next.forgejo.org
+      paths:
+        - path: /
+          pathType: Prefix
+
+service:
+  ssh:
+    port: ssh
+
+extraDeploy:
+  # Route from traefik to forgejo
+  - apiVersion: traefik.io/v1alpha1
+    kind: IngressRouteTCP
+    metadata:
+      name: forgejo-next-ssh
+      annotations:
+        kubernetes.io/ingress.class: traefik
+    spec:
+      entryPoints:
+        - ssh-next # name from traefik port
+      routes:
+        - match: HostSNI(`*`)
+          services:
+            - name: forgejo-next-ssh
+              port: 2222 # forgejo ssh port on kubernetes service
+
+persistence:
+  claimName: forgejo-next
+
+gitea:
+  admin:
+    username: earl-warren
+    email: 'contact@earl-warren.org'
+  config:
+    APP_NAME: "Forgejo v8.0 demo"
+    APP_SLOGAN: "ARCHIVED USE v8.next.forgejo.org instead"
+    APP_DISPLAY_NAME_FORMAT: "{APP_NAME} [{APP_SLOGAN}]"
+    log:
+      LEVEL: "info"
+    server:
+      ROOT_URL: https://next.forgejo.org/
+      DOMAIN: next.forgejo.org
+      SSH_DOMAIN: next.forgejo.org
+      SSH_PORT: "2020"
+      LFS_START_SERVER: true
+      OFFLINE_MODE: true
+    repository:
+      ROOT: /data/git/repositories
+    service:
+      REGISTER_EMAIL_CONFIRM: true
+      DEFAULT_KEEP_EMAIL_PRIVATE: true
+      ENABLE_NOTIFY_MAIL: true
+      DISABLE_REGISTRATION: true
+    actions:
+      ENABLED: false
+    mirror:
+      ENABLED: false
+    federation:
+      ENABLED: true
+    admin:
+      SEND_NOTIFICATION_EMAIL_ON_NEW_USER: true
+    cors:
+      ENABLED: true
+      ALLOW_DOMAIN: "*"
+      HEADERS: "Access-Control-Allow-Origin"
+    mailer:
+      ENABLED: true
+      FROM: "noreply@forgejo.org"
+      PROTOCOL: "smtp+starttls"
+      SMTP_ADDR: "ssl0.ovh.net"
+      SMTP_PORT: "587"
+      USER: "next@forgejo.org"
+    database:
+      PATH: /data/gitea.db
+      DB_TYPE: sqlite3
+    session:
+      PROVIDER: db
+    cache:
+      ADAPTER: memory
+    queue:
+      TYPE: level
+    indexer:
+      REPO_INDEXER_ENABLED: true
+    cron.archive_cleanup:
+      SCHEDULE: "@hourly"
+      OLDER_THAN: "2h"

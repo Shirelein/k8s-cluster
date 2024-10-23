@@ -1,0 +1,9 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: forgejo-ratelimit
+spec:
+  # https://doc.traefik.io/traefik/v3.1/middlewares/http/ratelimit/
+  rateLimit:
+    average: 10
+    burst: 20
