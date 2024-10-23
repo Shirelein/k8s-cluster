@@ -1,0 +1,43 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+annotations:
+  # https://cert-manager.io/docs/usage/ingress/#supported-annotations
+  # https://github.com/cert-manager/cert-manager/issues/2239
+  cert-manager.io/cluster-issuer: letsencrypt-http
+  cert-manager.io/private-key-algorithm: ECDSA
+  cert-manager.io/private-key-size: 384
+  kubernetes.io/ingress.class: traefik
+  traefik.ingress.kubernetes.io/router.entrypoints: websecure
+metadata:
+  name: webhook-flux-receiver
+  namespace: flux-system
+spec:
+  rules:
+  - host: flux.k8s.forgejo.org
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: webhook-flux-receiver
+            port:
+              name: http
+---
+apiVersion: notification.toolkit.fluxcd.io/v1
+kind: Receiver
+metadata:
+  name: forgejo-receiver
+  namespace: flux-system
+spec:
+  type: github
+  events:
+    - "ping"
+    - "push"
+  secretRef:
+    name: webhook-flux-token
+  resources:
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: GitRepository
+      # matching the GitRepository in gotk-sync.yaml
+      name: flux-system
