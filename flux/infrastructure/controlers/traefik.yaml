@@ -1,3 +1,4 @@
+# https://fluxcd.io/flux/components/helm/helmreleases/
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -14,8 +15,8 @@ spec:
         kind: HelmRepository
         name: traefik-charts
       interval: 5m
-      upgrade:
-        crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
   releaseName: traefik
   values:
     deployment:
