@@ -35,8 +35,8 @@ Each node is identifed by the last digit of the hostname.
 
 ```sh
 sudo apt-get install git etckeeper
-git clone https://code.forgejo.org/infrastructure/documentation
-cd documentation/k3s-host
+git clone https://code.forgejo.org/infrastructure/k8s-cluster
+cd k8s-cluster/k3s-host
 cp variables.sh.example variables.sh
 cp secrets.sh.example secrets.sh
 ```
@@ -87,18 +87,29 @@ sudo ip addr add 10.53.101.100/24 dev enp5s0.4001
 
 ## K8S
 
-For the first node `./setup.sh setup_k8s`. For nodes joining the cluster `./setup.sh setup_k8s 6` where `hetzner06` is an existing node.
+For the first node:
 
-- [metallb](https://metallb.universe.tf) instead of the default load balancer because it does not allow for a public IP different from the `k8s` node IP.
-  `./setup.sh setup_k8s_metallb`
-- [traefik](https://traefik.io/) [v2.10](https://doc.traefik.io/traefik/v3.1/) installed from the [v25.0](https://github.com/traefik/traefik-helm-chart/tree/v31.1.1) helm chart.
-  `./setup.sh setup_k8s_traefik`
-- [cert-manager](https://cert-manager.io/).
-  `./setup.sh setup_k8s_certmanager`
-- NFS storage class
-  `./setup.sh setup_k8s_nfs`
+- `./setup.sh setup_k8s`
 
-## K8S NFS storage creation
+For nodes joining the cluster:
+
+- `./setup.sh setup_k8s 6` where `hetzner06` is an existing node.
+
+## flux
+
+Add [flux](https://fluxcd.io/flux/use-cases/helm/) to deploy from https://code.forgejo.org/infrastructure/k8s-cluster.
+
+The [flux/clusters/flux-system/gotk-components.yaml](https://code.forgejo.org/infrastructure/k8s-cluster/src/branch/main/flux/clusters/flux-system/gotk-components.yaml) file is [created and committed to the repository](https://code.forgejo.org/infrastructure/documentation/issues/43#issuecomment-16755) with:
+
+```sh
+curl -s https://fluxcd.io/install.sh | sudo bash
+flux check --pre
+flux install --export  > flux/clusters/prod/flux-system/gotk-components.yaml
+```
+
+- `./setup.sh setup_flux`
+
+## ??? PVC
 
 Define the 20GB `forgejo-data` pvc owned by user id 1000.
 

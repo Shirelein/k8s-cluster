@@ -14,7 +14,7 @@ ports:
       default: true
 service:
   annotations:
-    metallb.universe.tf/loadBalancerIPs: $failover_ipv4,$failover_ipv6
+    metallb.universe.tf/loadBalancerIPs: 188.40.16.47,2a01:4f8:fff2:48::2
   spec:
     externalTrafficPolicy: Local
     ipFamilyPolicy: PreferDualStack

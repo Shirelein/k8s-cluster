@@ -196,27 +196,6 @@ function setup_k8s_apply() {
 	retry --delay 30 --times 10 -- bash -c "$SELF_DIR/subst.sh $1 | kubectl apply --server-side=true -f -"
 }
 
-function setup_k8s_traefik() {
-	# https://github.com/traefik/traefik-helm-chart?tab=readme-ov-file#deploying-traefik
-	$SELF_DIR/subst.sh traefik.yml | helm upgrade --install --namespace kube-system traefik -f - --set installCRDs=true --version $TRAEFIK_VERSION oci://ghcr.io/traefik/helm/traefik
-	setup_k8s_apply traefik-rate-limit.yml
-}
-
-function setup_k8s_nfs() {
-	setup_k8s_apply nfs.yml
-}
-
-function setup_k8s_metallb() {
-	helm repo add metallb https://metallb.github.io/metallb
-	helm upgrade --install metallb --set installCRDs=true metallb/metallb
-	setup_k8s_apply metallb.yml
-}
-
-function setup_k8s_certmanager() {
-	helm upgrade --install mycertmanager --set installCRDs=true oci://registry-1.docker.io/bitnamicharts/cert-manager
-	setup_k8s_apply certmanager.yml
-}
-
 function setup_k8s_pvc() {
 	export pvc_name=$1
 	export pvc_capacity=$2
@@ -228,6 +207,12 @@ function setup_k8s_pvc() {
 	sudo umount /opt
 
 	setup_k8s_apply pvc.yml
+}
+
+function setup_k8s_flux() {
+	kubectl apply --server-side -f $FLUX_DIR/clusters/flux-system/gotk-components.yaml
+	kubectl apply --server-side -f $FLUX_DIR/clusters/flux-system/gotk-sync.yaml
+	kubectl annotate -n flux-system --field-manager=flux-client-side-apply --overwrite GitRepository/flux-system reconcile.fluxcd.io/requestedAt="$(date +%s)"
 }
 
 "$@"
