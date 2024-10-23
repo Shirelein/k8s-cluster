@@ -1,3 +1,4 @@
+# https://kubernetes.io/docs/concepts/services-networking/ingress
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 annotations:
@@ -12,6 +13,10 @@ metadata:
   name: webhook-flux-receiver
   namespace: flux-system
 spec:
+  tls:
+  - hosts:
+      - flux.k8s.forgejo.org
+    secretName: tls-forgejo-flux-ingress-http
   rules:
   - host: flux.k8s.forgejo.org
     http:
@@ -27,7 +32,7 @@ spec:
 apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Receiver
 metadata:
-  name: forgejo-receiver
+  name: forgejo-flux-receiver
   namespace: flux-system
 spec:
   type: github
