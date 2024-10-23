@@ -47,3 +47,21 @@ spec:
       kind: GitRepository
       # matching the GitRepository in gotk-sync.yaml
       name: flux-system
+---
+#
+# The discussion that led to adding the following is
+# https://matrix.to/#/!NdTYAXrlSgIkGNiPgQ:matrix.org/$fUvRAhXEnubBTxbads0unHm7UWUGfciX_3TcoIv7xKc?via=schinas.net&via=matrix.org&via=mozilla.org
+#
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: cert-manager-acme-http-solver
+  namespace: flux-system
+spec:
+  podSelector:
+    matchLabels:
+      acme.cert-manager.io/http01-solver: 'true'
+  ingress:
+    - {}
+  policyTypes:
+    - Ingress
