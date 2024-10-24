@@ -5,6 +5,11 @@ metadata:
   name: traefik
   namespace: kube-system
 spec:
+  dependsOn:
+    - name: metallb
+      namespace: metallb-system
+    - name: metallb-config
+      namespace: metallb-system
   interval: 10m
   timeout: 5m
   chart:
