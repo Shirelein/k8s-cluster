@@ -1,0 +1,37 @@
+---
+# https://fluxcd.io/flux/components/notification/alerts/
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: matrix
+  namespace: flux-system
+spec:
+  summary: "Forgejo k8s error"
+  providerRef:
+    name: matrix-bot
+  eventSeverity: error
+  eventSources:
+    - kind: GitRepository
+      name: '*'
+    - kind: HelmRelease
+      name: '*'
+    - kind: HelmRelease
+      name: '*'
+      namespace: metallb-system # watch on different namespace, defaults to metadata.namespace
+    - kind: HelmRepository
+      name: '*'
+    - kind: Kustomization
+      name: '*'
+---
+# https://fluxcd.io/flux/components/notification/providers/#matrix
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: matrix-bot
+  namespace: flux-system
+spec:
+  type: matrix
+  address: https://matrix.org
+  channel: "!BKzDWOjAkgzGrGlnYI:matrix.org"
+  secretRef:
+    name: matrix-token
