@@ -1,4 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  # order them by dependency chain, otherwise there will be warnings because of a missing dependency
+  - metallb.yaml
   - traefik.yaml

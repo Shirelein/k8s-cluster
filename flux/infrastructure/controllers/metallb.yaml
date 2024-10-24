@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: metallb-system
+---
+# https://fluxcd.io/flux/components/helm/helmreleases/
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: metallb
+  namespace: metallb-system
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: metallb
+      version: '0.14.8'
+      sourceRef:
+        kind: HelmRepository
+        namespace: flux-system
+        name: metallb
+      interval: 5m
+  upgrade:
+    crds: CreateReplace
+  releaseName: metallb
+  # this creates kubernetes warnings if the running metallb doesn't equal the configs.
+  driftDetection:
+    mode: warn
+    ignore:
+      - paths:
+          - /spec/conversion/webhook/clientConfig/caBundle # changed by kubernetes, so ignore
+        target:
+          group: apiextensions.k8s.io
+          kind: CustomResourceDefinition
+          name: '.*.metallb.io'
+---
+# https://fluxcd.io/flux/components/helm/helmreleases/
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: metallb-config
+  namespace: metallb-system
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: ./flux/infrastructure/charts/metallb-config
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      interval: 12h
+  dependsOn:
+    - name: metallb
+  driftDetection:
+    mode: enabled
