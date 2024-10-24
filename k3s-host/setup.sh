@@ -192,21 +192,14 @@ EOF
 	fi
 }
 
-function setup_k8s_apply() {
-	retry --delay 30 --times 10 -- bash -c "$SELF_DIR/subst.sh $1 | kubectl apply --server-side=true -f -"
-}
-
 function setup_k8s_pvc() {
 	export pvc_name=$1
-	export pvc_capacity=$2
-	export pvc_owner=$3
+	export pvc_owner=$2
 
 	sudo mount -o nfsvers=4.2 $node_nfs_server:/k8s /opt
 	sudo mkdir -p /opt/$pvc_name
 	sudo chown $pvc_owner:$pvc_owner /opt/$pvc_name
 	sudo umount /opt
-
-	setup_k8s_apply pvc.yml
 }
 
 function setup_k8s_flux() {
