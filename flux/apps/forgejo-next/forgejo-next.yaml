@@ -8,12 +8,14 @@ spec:
   chart:
     spec:
       chart: forgejo-helm
+      version: '10.0.0'
       sourceRef:
         kind: HelmRepository
         namespace: flux-system
         # https://code.forgejo.org/forgejo-helm/-/packages/container/forgejo/versions
         name: forgejo
       interval: 5m
+  releaseName: forgejo
   # https://fluxcd.io/flux/components/helm/helmreleases/#values-references
   valuesFrom:
     - kind: Secret
