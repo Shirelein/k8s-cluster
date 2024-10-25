@@ -5,6 +5,15 @@ metadata:
   name: forgejo
 spec:
   interval: 30m
+  chart:
+    spec:
+      chart: forgejo-helm
+      sourceRef:
+        kind: HelmRepository
+        namespace: flux-system
+        # https://code.forgejo.org/forgejo-helm/-/packages/container/forgejo/versions
+        name: forgejo
+      interval: 5m
   # https://fluxcd.io/flux/components/helm/helmreleases/#values-references
   valuesFrom:
     - kind: Secret
