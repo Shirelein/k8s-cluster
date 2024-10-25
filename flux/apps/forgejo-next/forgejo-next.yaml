@@ -4,6 +4,7 @@ kind: HelmRelease
 metadata:
   name: forgejo
 spec:
+  interval: 30m
   # https://fluxcd.io/flux/components/helm/helmreleases/#values-references
   valuesFrom:
     - kind: Secret
