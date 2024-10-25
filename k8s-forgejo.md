@@ -19,7 +19,7 @@ metadata:
   namespace: forgejo-next
 type: Opaque
 stringData:
-  value.yaml: |
+  values.yaml: |
     gitea:
       admin:
         username: root
@@ -37,7 +37,7 @@ metadata:
   namespace: forgejo-next
 type: Opaque
 stringData:
-  value.yaml: |
+  values.yaml: |
     gitea:
       config:
         mailer:
