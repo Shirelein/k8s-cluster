@@ -10,10 +10,10 @@ spec:
       name: forgejo-next-username-and-password
     - kind: Secret
       name: forgejo-next-mailer
-  strategy:
-    type: 'Recreate'
-
   values:
+    strategy:
+      type: 'Recreate'
+
     image:
       registry: codeberg.org
       repository: forgejo-experimental/forgejo
