@@ -14,7 +14,7 @@ spec:
   timeout: 5m
   sourceRef:
     kind: GitRepository
-    name: forgejo-next
+    name: flux-system
   path: ./flux/apps/forgejo-next
   prune: true
   wait: true
