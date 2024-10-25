@@ -7,12 +7,12 @@ spec:
   interval: 30m
   chart:
     spec:
-      chart: forgejo-helm
+      # https://code.forgejo.org/forgejo-helm/-/packages/container/forgejo/versions
+      chart: forgejo
       version: '10.0.0'
       sourceRef:
         kind: HelmRepository
         namespace: flux-system
-        # https://code.forgejo.org/forgejo-helm/-/packages/container/forgejo/versions
         name: forgejo
       interval: 5m
   releaseName: forgejo
