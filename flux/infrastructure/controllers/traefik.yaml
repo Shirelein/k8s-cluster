@@ -35,8 +35,9 @@ spec:
           priority: 1
       ssh-next:
         port: 2020
-        exposedPort: 2020
         # https://github.com/traefik/traefik-helm-chart/blob/v32.1.1/traefik/values.yaml#L611-L614
+        # exposed means listens on the public IPs
+        exposedPort: 2020
         expose:
           default: true
     service:

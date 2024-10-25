@@ -63,7 +63,6 @@ spec:
         ipFamilyPolicy: PreferDualStack
         clusterIP: ~
       ssh:
-        port: ssh
         type: ClusterIP
         clusterIP: ~
         ipFamilyPolicy: PreferDualStack
