@@ -1,6 +1,6 @@
 # K8S node
 
-Installing a K8S node using [scripts from the k3s-host](k3s-host) directory.
+Installing a K8S cluster deployed with [flux](https://fluxcd.io/) using [scripts from the k3s-host](k3s-host) directory.
 
 ## Imaging
 
