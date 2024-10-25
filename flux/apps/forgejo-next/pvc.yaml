@@ -2,13 +2,13 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: $pvc_name
+  name: forgejo-next
 spec:
   capacity:
-    storage: $pvc_capacity
+    storage: 20Gi
   nfs:
-    server: $node_nfs_server
-    path: /k8s/$pvc_name
+    server: 10.53.101.100
+    path: /k8s/forgejo-next
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
@@ -21,13 +21,13 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: $pvc_name
+  name: forgejo-next
 spec:
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: $pvc_capacity
-  volumeName: $pvc_name
+      storage: 20Gi
+  volumeName: forgejo-next
   storageClassName: nfs
   volumeMode: Filesystem
