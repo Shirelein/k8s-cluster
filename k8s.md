@@ -109,10 +109,12 @@ flux install --export  > flux/clusters/prod/flux-system/gotk-components.yaml
 
 - `./setup.sh setup_flux`
 
-## ??? PVC
+## Prepare storage
 
-Define the 20GB `forgejo-data` pvc owned by user id 1000.
+A directory must exist before a [PV](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) can be created to use it via NFS.
+
+Create the `forgejo-data` directory, owned by user id 1000.
 
 ```sh
-./setup.sh setup_k8s_pvc forgejo-data 20Gi 1000
+./setup.sh setup_k8s_pvc forgejo-data 1000
 ```
