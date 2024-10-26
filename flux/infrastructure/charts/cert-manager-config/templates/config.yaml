@@ -3,7 +3,6 @@ kind: ClusterIssuer
 metadata:
   name: letsencrypt-http
 spec:
-  installCRDs: true
   acme:
     email: contact@forgejo.org
     server: https://acme-v02.api.letsencrypt.org/directory
