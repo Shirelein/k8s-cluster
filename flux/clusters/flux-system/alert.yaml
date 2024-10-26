@@ -17,6 +17,9 @@ spec:
       name: '*'
     - kind: HelmRelease
       name: '*'
+      namespace: kube-system # watch on different namespace, defaults to metadata.namespace
+    - kind: HelmRelease
+      name: '*'
       namespace: metallb-system # watch on different namespace, defaults to metadata.namespace
     - kind: HelmRelease
       name: '*'
