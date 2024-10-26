@@ -2,12 +2,14 @@ apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: letsencrypt-http
+  namespace: kube-system
 spec:
   acme:
     email: contact@forgejo.org
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-http
+      namespace: kube-system
     solvers:
     - http01:
         ingress:
