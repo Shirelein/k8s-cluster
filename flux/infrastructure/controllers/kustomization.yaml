@@ -4,4 +4,4 @@ resources:
   # order them by dependency chain, otherwise there will be warnings because of a missing dependency
   - metallb.yaml
   - traefik.yaml
-  - certmanager.yaml
+  - cert-manager.yaml

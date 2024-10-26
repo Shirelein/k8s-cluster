@@ -1,4 +1,4 @@
 apiVersion: v2
-name: certmanager-config
+name: cert-manager-config
 version: 1.0.0 # need increment on any manifest change
-description: Certmanager configurations
+description: Cert-manager configurations
