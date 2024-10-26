@@ -1,0 +1,17 @@
+# Route from traefik to forgejo
+# https://doc.traefik.io/traefik/v3.1/routing/providers/kubernetes-crd/#kind-ingressroutetcp
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: forgejo-next-ssh-v7
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - ssh-next-v7 # name from traefik port
+  routes:
+    - match: HostSNI(`*`)
+      services:
+        # Created by the helm chart and named after it with <releaseName>-ssh
+        - name: forgejo-v7-ssh
+          port: ssh # forgejo ssh port on kubernetes service

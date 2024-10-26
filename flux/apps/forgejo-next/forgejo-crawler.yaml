@@ -13,7 +13,7 @@ spec:
     # https://doc.traefik.io/traefik/v3.1/routing/routers/#rule
     # https://github.com/ai-robots-txt/ai.robots.txt
     # https://github.com/anthmn/ai-bot-blocker
-    - match: Host(`next.forgejo.org`) && HeaderRegexp(`user-agent`, `(ClaudeBot|Bytespider|DataForSeoBot|SemrushBot|AhrefsBot|FriendlyCrawler|ImagesiftBot|GoogleBot|GoogleOther|bingbot|YandexBot)`)
+    - match: HostRegexp(`.*next.forgejo.org`) && HeaderRegexp(`user-agent`, `(ClaudeBot|Bytespider|DataForSeoBot|SemrushBot|AhrefsBot|FriendlyCrawler|ImagesiftBot|GoogleBot|GoogleOther|bingbot|YandexBot)`)
       kind: Rule
       priority: 1000
       services:
