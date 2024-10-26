@@ -41,3 +41,5 @@ spec:
       namespace: kube-system
   driftDetection:
     mode: enabled
+  upgrade:
+    crds: CreateReplace
