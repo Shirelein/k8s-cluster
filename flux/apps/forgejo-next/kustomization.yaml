@@ -3,6 +3,9 @@ kind: Kustomization
 namespace: forgejo-next
 resources:
   - pvc.yaml
+  - pvc-v7.yaml
   - forgejo-next.yaml
+  - forgejo-next-v7.yaml
   - forgejo-route.yaml
+  - forgejo-route-v7.yaml
   - forgejo-crawler.yaml
