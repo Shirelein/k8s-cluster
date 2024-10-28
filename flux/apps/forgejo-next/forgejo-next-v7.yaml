@@ -28,7 +28,7 @@ spec:
     image:
       registry: codeberg.org
       repository: forgejo-experimental/forgejo
-      tag: '7.0-test'
+      tag: '7'
       # to be used for implementing updates https://code.forgejo.org/infrastructure/k8s-cluster/issues/18
       digest: ''
       rootless: false
