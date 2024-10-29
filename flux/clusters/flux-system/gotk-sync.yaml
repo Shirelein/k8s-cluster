@@ -20,9 +20,10 @@ spec:
   ref:
     branch: main
   url: https://code.forgejo.org/infrastructure/k8s-cluster.git
+  # https://fluxcd.io/flux/components/source/gitrepositories/#include
   include:
     - repository:
-        forgejo-next-digest
+        name: forgejo-next-digest
       toPath: flux/apps/digest
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
