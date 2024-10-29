@@ -109,29 +109,6 @@ flux install --export  > flux/clusters/prod/flux-system/gotk-components.yaml
 
 - `./setup.sh setup_flux`
 
-Create the following secrets to be used by [the Receiver](https://code.forgejo.org/infrastructure/k8s-cluster/src/branch/main/flux/clusters/flux-system/receiver.yaml) to authenticate the Forgejo webhook created with the same secret to instruct flux to pull from the repository.
-
-```sh
-secret_name=webhook-???
-TOKEN=$(head -c 12 /dev/urandom | shasum | cut -d ' ' -f1)
-kubectl -n flux-system create secret generic $secret_name --from-literal=token=$TOKEN
-kubectl -n flux-system get secret $secret_name -o json | jq -r .data.token | base64 -d
-```
-
-The URL of the webhook is composed as follows:
-
-```sh
-receiver_name=forgejo-???
-echo https://flux.k8s.forgejo.org$(kubectl --namespace flux-system get -o go-template='{{.status.webhookPath}}' Receiver $receiver_name)
-```
-
-* For the [k8s-cluster repository webhook](https://code.forgejo.org/infrastructure/k8s-cluster/settings/hooks)
-  * receiver_name=forgejo-flux-receiver
-  * secret_name=webhook-flux-token
-* For the [next-digest repository webhook](https://code.forgejo.org/infrastructure/next-digest/settings/hooks)
-  * receiver_name=forgejo-next-digest-flux-receiver
-  * secret_name=webhook-next-digest-flux-token
-
 ## Prepare storage
 
 A directory must exist before a [PV](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) can be created to use it via NFS.
