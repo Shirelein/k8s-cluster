@@ -47,6 +47,20 @@ spec:
       kind: GitRepository
       # matching the GitRepository in flux/clusters/gotk-sync.yaml
       name: flux-system
+---
+apiVersion: notification.toolkit.fluxcd.io/v1
+kind: Receiver
+metadata:
+  name: forgejo-next-digest-flux-receiver
+  namespace: flux-system
+spec:
+  type: github
+  events:
+    - "ping"
+    - "push"
+  secretRef:
+    name: webhook-next-digest-flux-token
+  resources:
     - apiVersion: source.toolkit.fluxcd.io/v1
       kind: GitRepository
       # matching the GitRepository in flux/clusters/forgejo-next.yaml
