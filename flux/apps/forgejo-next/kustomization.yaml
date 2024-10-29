@@ -6,3 +6,6 @@ resources:
   - forgejo-next.yaml
   - forgejo-route.yaml
   - forgejo-crawler.yaml
+# https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patches/
+patches:
+  - path: ../digest/v8.yaml
