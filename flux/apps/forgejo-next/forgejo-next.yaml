@@ -31,7 +31,7 @@ spec:
       repository: forgejo-experimental/forgejo
       tag: '8.0-test'
       # to be used for implementing updates https://code.forgejo.org/infrastructure/k8s-cluster/issues/18
-      digest: '${forgejo_next_v8_digest}'
+      digest: ''
       rootless: false
 
     ingress:

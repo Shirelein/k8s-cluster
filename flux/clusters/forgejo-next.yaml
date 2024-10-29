@@ -1,19 +1,8 @@
 ---
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: GitRepository
-metadata:
-  name: forgejo-next-digest
-  namespace: flux-system
-spec:
-  interval: 15m
-  ref:
-    branch: main
-  url: https://code.forgejo.org/infrastructure/next-digest.git
----
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: forgejo-next-digest
+  name: forgejo-next
   namespace: flux-system
 spec:
   dependsOn:
@@ -25,34 +14,10 @@ spec:
   timeout: 5m
   sourceRef:
     kind: GitRepository
-    name: forgejo-next-digest
-  path: ./
-  prune: true
-  wait: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: forgejo-next
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: forgejo-next-digest
-  interval: 1h
-  retryInterval: 1m
-  timeout: 5m
-  sourceRef:
-    kind: GitRepository
     name: flux-system
   path: ./flux/apps/forgejo-next
   prune: true
   wait: true
-  # https://fluxcd.io/flux/components/kustomize/kustomizations/#post-build-variable-substitution
-  postBuild:
-    substituteFrom:
-      - kind: ConfigMap
-        name: forgejo-next-digest
-        optional: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
