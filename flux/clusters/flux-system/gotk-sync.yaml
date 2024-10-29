@@ -2,6 +2,17 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
+  name: forgejo-next-digest
+  namespace: flux-system
+spec:
+  interval: 15m
+  ref:
+    branch: main
+  url: https://code.forgejo.org/infrastructure/next-digest.git
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
   name: flux-system
   namespace: flux-system
 spec:
@@ -9,6 +20,10 @@ spec:
   ref:
     branch: main
   url: https://code.forgejo.org/infrastructure/k8s-cluster.git
+  include:
+    - repository:
+        forgejo-next-digest
+      toPath: flux/apps/digest
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
