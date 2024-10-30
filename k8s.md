@@ -129,6 +129,16 @@ echo https://flux.k8s.forgejo.org$(kubectl --namespace flux-system get -o go-tem
   * receiver_name=forgejo-flux-receiver
   * secret_name=webhook-flux-token
 
+## Updating v*.next.forgejo.org
+
+For each Forgejo major version there is a corresponding vX.next.forgejo.org instance. It runs the latest OCI build published in https://codeberg.org/forgejo-experimental/ under the tag `vX.0-test`. Since the tag does not change, the digest must be set for the upgrade to happen.
+
+The https://code.forgejo.org/infrastructure/next-digest repository is updated by the [release publish workflow](https://codeberg.org/forgejo/forgejo/src/branch/forgejo/.forgejo/workflows/publish-release.yml). A workflow in this repository uses a token with write permissions to this repository and will commit the updated digest to this repository.
+
+The token used by the `next-digest` repository is issued from the `forgejo-k8s-cluster` service account, member of the `mergers` team. It has no known password or valid email. Login as `forgejo-k8s-cluster` can only be done by reseting the password from the admin interface.
+
+> **NOTE** various other methods for doing the same [were explored](https://code.forgejo.org/infrastructure/k8s-cluster/issues/18).
+
 ## Prepare storage
 
 A directory must exist before a [PV](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) can be created to use it via NFS.
