@@ -9,7 +9,7 @@ spec:
     spec:
       # https://code.forgejo.org/forgejo-helm/-/packages/container/forgejo/versions
       chart: forgejo
-      version: '10.0.0'
+      version: '9.0.0'
       sourceRef:
         kind: HelmRepository
         namespace: flux-system
