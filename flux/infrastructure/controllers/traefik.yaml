@@ -47,6 +47,13 @@ spec:
         exposedPort: 2070
         expose:
           default: true
+      ssh-next-v8:
+        port: 2080
+        # https://github.com/traefik/traefik-helm-chart/blob/v32.1.1/traefik/values.yaml#L611-L614
+        # exposed means listens on the public IPs
+        exposedPort: 2080
+        expose:
+          default: true
     service:
       annotations:
         metallb.universe.tf/loadBalancerIPs: 188.40.16.47,2a01:4f8:fff2:48::2
