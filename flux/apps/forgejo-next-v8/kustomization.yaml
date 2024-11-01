@@ -22,4 +22,11 @@ patches:
         path: /metadata/name
         value: forgejo-next-v8
   - path: pvc.yaml
+  - target:
+      kind: HelmRelease
+      name: forgejo
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: forgejo-v8
   - path: ../digest/v8.yaml
