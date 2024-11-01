@@ -22,4 +22,4 @@ patches:
         path: /metadata/name
         value: forgejo-next-v8
   - path: pvc.yaml
-  - path: v8.yaml
+  - path: ../digest/v8.yaml
