@@ -20,7 +20,7 @@ spec:
     - kind: Secret
       name: forgejo-next-username-and-password
     - kind: Secret
-      name: forgejo-next-mailer
+      name: forgejo-next-posteo-mailer
   values:
     strategy:
       type: 'Recreate'
@@ -101,11 +101,11 @@ spec:
           HEADERS: "Access-Control-Allow-Origin"
         mailer:
           ENABLED: true
-          FROM: "noreply@forgejo.org"
+          FROM: "forgejo-next@posteo.com"
           PROTOCOL: "smtp+starttls"
-          SMTP_ADDR: "ssl0.ovh.net"
+          SMTP_ADDR: "posteo.de"
           SMTP_PORT: "587"
-          # user and password from forgejo-next-mailer
+          # user and password from forgejo-next-posteo-mailer
         database:
           DB_TYPE: sqlite3
         session:
