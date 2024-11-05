@@ -1,0 +1,74 @@
+# https://fluxcd.io/flux/components/helm/helmreleases/
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: forgejo-v10
+spec:
+  chart:
+    spec:
+      chart: forgejo
+      sourceRef:
+        kind: HelmRepository
+        namespace: flux-system
+        name: forgejo
+      # https://code.forgejo.org/forgejo-helm/-/packages/container/forgejo/versions
+      version: '10.0.0'
+  values:
+    image:
+      tag: '10'
+
+    ingress:
+      tls:
+        - hosts:
+            - v10.next.forgejo.org
+          secretName: tls-forgejo-next-v10-ingress-http
+      hosts:
+        - host: v10.next.forgejo.org
+          paths:
+            - path: /
+              pathType: Prefix
+
+    persistence:
+      claimName: forgejo-next-v10
+
+    gitea:
+      # initial admin user and password from forgejo-next-username-and-password
+      config:
+        APP_NAME: "FOR TESTING ONLY, ALL DATA CAN BE WIPED OUT AT ANY TIME"
+        server:
+          ROOT_URL: https://v10.next.forgejo.org/
+          DOMAIN: v10.next.forgejo.org
+          SSH_DOMAIN: v10.next.forgejo.org
+          SSH_PORT: "2100"
+          LFS_START_SERVER: true
+        service:
+          REGISTER_EMAIL_CONFIRM: true
+          DEFAULT_KEEP_EMAIL_PRIVATE: true
+          ENABLE_NOTIFY_MAIL: true
+        federation:
+          ENABLED: true
+        admin:
+          SEND_NOTIFICATION_EMAIL_ON_NEW_USER: true
+        cors:
+          ENABLED: true
+          ALLOW_DOMAIN: "*"
+          HEADERS: "Access-Control-Allow-Origin"
+        database:
+          DB_TYPE: sqlite3
+        session:
+          PROVIDER: db
+        cache:
+          ADAPTER: memory
+        queue:
+          TYPE: level
+        indexer:
+          ISSUE_INDEXER_TYPE: bleve
+          REPO_INDEXER_ENABLED: true
+        openid:
+          ENABLE_OPENID_SIGNIN: true
+          ENABLE_OPENID_SIGNUP: true
+        cron.archive_cleanup:
+          SCHEDULE: "@hourly"
+          OLDER_THAN: "2h"
+        oauth2:
+          ENABLE_ADDITIONAL_GRANT_SCOPES: true
