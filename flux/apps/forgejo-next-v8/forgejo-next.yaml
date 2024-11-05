@@ -37,7 +37,7 @@ spec:
       annotations:
         # https://doc.traefik.io/traefik/v3.1/routing/providers/kubernetes-ingress/#on-ingress
         # reference middlewares via `<namspace>-<name>@kubernetescrd`
-        #traefik.ingress.kubernetes.io/router.middlewares: default-forgejo-ratelimit@kubernetescrd
+        traefik.ingress.kubernetes.io/router.middlewares: default-forgejo-ratelimit@kubernetescrd
         # https://cert-manager.io/docs/usage/ingress/#supported-annotations
         # https://github.com/cert-manager/cert-manager/issues/2239
         cert-manager.io/cluster-issuer: letsencrypt-http
