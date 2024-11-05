@@ -2,18 +2,11 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: forgejo-v8
+  name: forgejo
 spec:
   interval: 30m
   chart:
     spec:
-      # https://code.forgejo.org/forgejo-helm/-/packages/container/forgejo/versions
-      chart: forgejo
-      version: '9.0.0'
-      sourceRef:
-        kind: HelmRepository
-        namespace: flux-system
-        name: forgejo
       interval: 5m
   # https://fluxcd.io/flux/components/helm/helmreleases/#values-references
   valuesFrom:
@@ -28,8 +21,7 @@ spec:
     image:
       registry: codeberg.org
       repository: forgejo-experimental/forgejo
-      tag: '8'
-      # replaced by ../digest/v8.yaml
+      # replaced by ../digest/v*.yaml
       digest: ''
 
     ingress:
@@ -45,15 +37,6 @@ spec:
         cert-manager.io/private-key-size: 384
         kubernetes.io/ingress.class: traefik
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
-      tls:
-        - hosts:
-            - v8.next.forgejo.org
-          secretName: tls-forgejo-next-v8-ingress-http
-      hosts:
-        - host: v8.next.forgejo.org
-          paths:
-            - path: /
-              pathType: Prefix
 
     service:
       http:
@@ -75,30 +58,9 @@ spec:
     persistence:
       enabled: true
       create: false
-      claimName: forgejo-next-v8
 
     gitea:
-      # initial admin user and password from forgejo-next-username-and-password
       config:
-        APP_NAME: "FOR TESTING ONLY, ALL DATA CAN BE WIPED OUT AT ANY TIME"
-        server:
-          ROOT_URL: https://v8.next.forgejo.org/
-          DOMAIN: v8.next.forgejo.org
-          SSH_DOMAIN: v8.next.forgejo.org
-          SSH_PORT: "2080"
-          LFS_START_SERVER: true
-        service:
-          REGISTER_EMAIL_CONFIRM: true
-          DEFAULT_KEEP_EMAIL_PRIVATE: true
-          ENABLE_NOTIFY_MAIL: true
-        federation:
-          ENABLED: true
-        admin:
-          SEND_NOTIFICATION_EMAIL_ON_NEW_USER: true
-        cors:
-          ENABLED: true
-          ALLOW_DOMAIN: "*"
-          HEADERS: "Access-Control-Allow-Origin"
         mailer:
           ENABLED: true
           FROM: "forgejo-next@posteo.com"
@@ -106,20 +68,3 @@ spec:
           SMTP_ADDR: "posteo.de"
           SMTP_PORT: "587"
           # user and password from forgejo-next-posteo-mailer
-        database:
-          DB_TYPE: sqlite3
-        session:
-          PROVIDER: db
-        cache:
-          ADAPTER: memory
-        queue:
-          TYPE: level
-        indexer:
-          ISSUE_INDEXER_TYPE: bleve
-          REPO_INDEXER_ENABLED: true
-        openid:
-          ENABLE_OPENID_SIGNIN: true
-          ENABLE_OPENID_SIGNUP: true
-        cron.archive_cleanup:
-          SCHEDULE: "@hourly"
-          OLDER_THAN: "2h"
