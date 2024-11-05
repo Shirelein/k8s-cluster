@@ -33,7 +33,7 @@ $ tee forgejo-next-mailer.yaml <<EOF
 apiVersion: v1
 kind: Secret
 metadata:
-  name: forgejo-next-mailer
+  name: forgejo-next-posteo-mailer
   namespace: forgejo-next
 type: Opaque
 stringData:
@@ -41,7 +41,7 @@ stringData:
     gitea:
       config:
         mailer:
-          USER: "next@forgejo.org"
+          USER: "forgejo-next@posteo.com"
           PASSWD: "$(openssl rand -hex 20)"
 EOF
 $ kubectl apply --server-side -f forgejo-next-mailer.yaml
