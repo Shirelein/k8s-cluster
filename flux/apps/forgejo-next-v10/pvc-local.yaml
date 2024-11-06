@@ -12,4 +12,4 @@ kind: PersistentVolumeClaim
 metadata:
   name: forgejo-next-local-v10
 spec:
-  volumeName: forgejo-next-v10
+  volumeName: forgejo-next-local-v10
