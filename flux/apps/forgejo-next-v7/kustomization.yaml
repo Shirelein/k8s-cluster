@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: forgejo-next
 resources:
   - ../base/forgejo-next/pvc
+  - ../base/forgejo-next/pvc-local
   - forgejo-next.yaml
   - forgejo-route.yaml
 # https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patches/
@@ -22,3 +23,19 @@ patches:
         path: /metadata/name
         value: forgejo-next-v7
   - path: pvc.yaml
+
+  - target:
+      kind: PersistentVolume
+      name: forgejo-next-local
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: forgejo-next-local-v7
+  - target:
+      kind: PersistentVolumeClaim
+      name: forgejo-next-local
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: forgejo-next-local-v7
+  - path: pvc-local.yaml
