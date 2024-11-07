@@ -29,7 +29,7 @@ spec:
               pathType: Prefix
 
     persistence:
-      claimName: forgejo-next-v9
+      claimName: forgejo-next-local-v9
 
     gitea:
       # initial admin user and password from forgejo-next-username-and-password

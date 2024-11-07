@@ -76,7 +76,7 @@ spec:
     persistence:
       enabled: true
       create: false
-      claimName: forgejo-next-v7
+      claimName: forgejo-next-local-v7
 
     gitea:
       config:
