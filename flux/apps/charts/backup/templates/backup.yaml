@@ -1,0 +1,44 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup-v{{ .Values.major }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  schedule: "@daily"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+
+          - name: backup-v{{ .Values.major }}
+
+            image: docker.io/bitnami/git:2.47
+
+            command: ["/bin/sh"]
+            args: ["-c", "set -x ; ssh -oStrictHostKeyChecking=no -p23 {{ .Values.storageBox }} mkdir -p forgejo-next-v{{ .Values.major }} ; rsync -e 'ssh -oStrictHostKeyChecking=no -p23' -zvaHS --delete --link-dest ../../forgejo-next-v{{ .Values.major }}/backup-day-`date +%d -d yesterday`/  /data/ {{ .Values.storageBox }}:forgejo-next-v{{ .Values.major }}/backup-day-`date +%d`/"]
+            volumeMounts:
+
+            - name: data-volume
+              mountPath: /data
+
+            - name: sshdir
+              mountPath: /root/.ssh
+              readOnly: true
+
+          volumes:
+
+          - name: data-volume
+            persistentVolumeClaim:
+              claimName: forgejo-next-v{{ .Values.major }}
+
+          - name: sshdir
+            secret:
+              secretName: backup-ssh-key
+              defaultMode: 0400
+              items:
+                - key: ssh-privatekey
+                  path: id_ed25519
+
+          restartPolicy: Never
