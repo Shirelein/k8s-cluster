@@ -15,6 +15,8 @@ spec:
         namespace: flux-system
         name: forgejo
       interval: 5m
+  dependsOn:
+    - name: forgejo-pvc-v7
   # https://fluxcd.io/flux/components/helm/helmreleases/#values-references
   valuesFrom:
     - kind: Secret
