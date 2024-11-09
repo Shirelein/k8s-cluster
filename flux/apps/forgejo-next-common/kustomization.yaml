@@ -3,3 +3,4 @@ kind: Kustomization
 namespace: forgejo-next
 resources:
   - forgejo-crawler.yaml
+  - forgejo-redirect.yaml
