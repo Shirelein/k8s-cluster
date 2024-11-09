@@ -1,0 +1,4 @@
+apiVersion: v2
+name: forgejo-pvc
+version: 1.0.0 # need increment on any manifest change
+description: Forgejo PVC
