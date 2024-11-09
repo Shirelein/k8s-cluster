@@ -13,6 +13,8 @@ spec:
         name: forgejo
       # https://code.forgejo.org/forgejo-helm/-/packages/container/forgejo/versions
       version: '9.0.0'
+  dependsOn:
+    - name: forgejo-pvc-v8
   values:
     image:
       tag: '8'

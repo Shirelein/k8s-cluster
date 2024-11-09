@@ -2,26 +2,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: forgejo-next
 resources:
-  - ../base/forgejo-next/pvc
+  - pvc.yaml
   - ../base/forgejo-next/forgejo
   - forgejo-route.yaml
 # https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patches/
 patches:
-  - target:
-      kind: PersistentVolume
-      name: forgejo-next
-    patch: |-
-      - op: replace
-        path: /metadata/name
-        value: forgejo-next-v8
-  - target:
-      kind: PersistentVolumeClaim
-      name: forgejo-next
-    patch: |-
-      - op: replace
-        path: /metadata/name
-        value: forgejo-next-v8
-  - path: pvc.yaml
   - target:
       kind: HelmRelease
       name: forgejo
@@ -30,4 +15,5 @@ patches:
         path: /metadata/name
         value: forgejo-v8
   - path: forgejo.yaml
+
   - path: ../digest/v8.yaml
