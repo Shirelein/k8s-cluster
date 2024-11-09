@@ -1,0 +1,8 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: forgejo-v7
+spec:
+  values:
+    image:
+      digest: 'sha256:4cd6ab4b4db7e8fb6df16e98447b5df4ddea5f53c7ae9d8b86e8118dc2d0330d'
