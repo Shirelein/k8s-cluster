@@ -39,3 +39,5 @@ patches:
         path: /metadata/name
         value: forgejo-next-local-v7
   - path: pvc-local.yaml
+
+  - path: ../digest/v7.yaml
