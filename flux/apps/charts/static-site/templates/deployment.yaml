@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: static-site-{{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  template:
+    spec:
+      volumes:
+      - name: static-files
+        emptyDir: {}
+      initContainers:
+        - name: static-site-git-{{ .Release.Name }}
+          image: docker.io/bitnami/git:2.47.0
+          command:
+          - sh
+          - -c
+          - |
+            git init &&
+            git remote add origin {{ .Values.git }} &&
+            git fetch --depth=1 {{ .Values.sha }} &&
+            git worktree add /nginx/html {{ .Values.sha }} &&
+          volumeMounts:
+          - name: static-files
+            mountPath: /nginx
+      containers:
+        - name: static-site-nginx-{{ .Release.Name }}
+          image: docker.io/bitnami/nginx:1.26
+          volumeMounts:
+          - name: static-files
+            mountPath: /usr/share/nginx
+          ports:
+            - name: http
+              containerPort: 80
