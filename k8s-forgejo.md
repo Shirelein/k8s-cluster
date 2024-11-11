@@ -10,7 +10,7 @@
 
 Used in `flux/apps/forgejo-next/forgejo-next.yaml` and [merged into the values](https://fluxcd.io/flux/components/helm/helmreleases/#values-references) and [defined as secrets](https://fluxcd.io/flux/components/helm/helmreleases/#kubeconfig-reference).
 
-```
+```sh
 $ tee forgejo-next-username-and-password.yaml <<EOF
 apiVersion: v1
 kind: Secret
@@ -28,7 +28,7 @@ EOF
 $ kubectl apply --server-side -f forgejo-next-username-and-password.yaml
 ```
 
-```
+```sh
 $ tee forgejo-next-mailer.yaml <<EOF
 apiVersion: v1
 kind: Secret

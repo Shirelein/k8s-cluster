@@ -1,4 +1,4 @@
-There is a [dedicated chatroom](https://matrix.to/#/#forgejo-ci:matrix.org). A mirror of this repository is available at https://git.pub.solar/forgejo/k8s-cluster.
+There is a [dedicated chatroom](https://matrix.to/#/#forgejo-ci:matrix.org). A mirror of this repository is available at <https://git.pub.solar/forgejo/k8s-cluster>.
 
 ## Table of content
 
@@ -14,6 +14,6 @@ The forgejo-matrix-devops account on matrix.org is associated with the matrix-de
 
 ## hetzner{05,06}
 
-https://hetzner05.forgejo.org & https://hetzner06.forgejo.org run on [EX44](https://www.hetzner.com/dedicated-rootserver/ex44) Hetzner hardware.
+<https://hetzner05.forgejo.org> & <https://hetzner06.forgejo.org> run on [EX44](https://www.hetzner.com/dedicated-rootserver/ex44) Hetzner hardware.
 
 Nodes of [a k8s cluster](k8s.md).
