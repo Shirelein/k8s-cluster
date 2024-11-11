@@ -5,4 +5,3 @@ resources:
   - pvc.yaml
   - forgejo-next.yaml
   - forgejo-route.yaml
-

@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: static-site-{{ .Release.Name }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{.Release.Namespace}}
   annotations:
     # https://cert-manager.io/docs/usage/ingress/#supported-annotations
     # https://github.com/cert-manager/cert-manager/issues/2239
@@ -13,17 +13,17 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
   tls:
-  - hosts:
-      - {{ .Values.host }}
-    secretName: tls-static-site-{{ .Release.Name }}-http
+    - hosts:
+        - {{.Values.host}}
+      secretName: tls-static-site-{{ .Release.Name }}-http
   rules:
-  - host: {{ .Values.host }}
-    http:
-      paths:
-      - pathType: Prefix
-        path: /
-        backend:
-          service:
-            name: static-site-{{ .Release.Name }}
-            port:
-              name: http
+    - host: {{.Values.host}}
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: static-site-{{ .Release.Name }}
+                port:
+                  name: http

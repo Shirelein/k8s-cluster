@@ -15,5 +15,4 @@ patches:
         path: /metadata/name
         value: forgejo-v10
   - path: forgejo.yaml
-
   - path: ../digest/v10.yaml

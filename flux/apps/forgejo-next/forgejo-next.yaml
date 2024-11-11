@@ -81,16 +81,16 @@ spec:
 
     gitea:
       config:
-        APP_NAME: "Forgejo v8.0 demo"
-        APP_SLOGAN: "ARCHIVED USE v8.next.forgejo.org instead"
-        APP_DISPLAY_NAME_FORMAT: "{APP_NAME} [{APP_SLOGAN}]"
+        APP_NAME: 'Forgejo v8.0 demo'
+        APP_SLOGAN: 'ARCHIVED USE v8.next.forgejo.org instead'
+        APP_DISPLAY_NAME_FORMAT: '{APP_NAME} [{APP_SLOGAN}]'
         log:
-          LEVEL: "info"
+          LEVEL: 'info'
         server:
           ROOT_URL: https://next.forgejo.org/
           DOMAIN: next.forgejo.org
           SSH_DOMAIN: next.forgejo.org
-          SSH_PORT: "2020"
+          SSH_PORT: '2020'
           LFS_START_SERVER: true
           OFFLINE_MODE: true
         repository:
@@ -110,14 +110,14 @@ spec:
           SEND_NOTIFICATION_EMAIL_ON_NEW_USER: true
         cors:
           ENABLED: true
-          ALLOW_DOMAIN: "*"
-          HEADERS: "Access-Control-Allow-Origin"
+          ALLOW_DOMAIN: '*'
+          HEADERS: 'Access-Control-Allow-Origin'
         mailer:
           ENABLED: true
-          FROM: "noreply@forgejo.org"
-          PROTOCOL: "smtp+starttls"
-          SMTP_ADDR: "ssl0.ovh.net"
-          SMTP_PORT: "587"
+          FROM: 'noreply@forgejo.org'
+          PROTOCOL: 'smtp+starttls'
+          SMTP_ADDR: 'ssl0.ovh.net'
+          SMTP_PORT: '587'
         database:
           PATH: /data/gitea.db
           DB_TYPE: sqlite3
@@ -130,5 +130,5 @@ spec:
         indexer:
           REPO_INDEXER_ENABLED: true
         cron.archive_cleanup:
-          SCHEDULE: "@hourly"
-          OLDER_THAN: "2h"
+          SCHEDULE: '@hourly'
+          OLDER_THAN: '2h'

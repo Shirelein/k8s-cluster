@@ -10,11 +10,7 @@
   "packageRules": [
     {
       "description": "override pr title for charts (otherwise it shows as docker image update)",
-      "matchPackageNames": [
-        "code.forgejo.org/forgejo-helm/forgejo",
-        "ghcr.io/traefik/helm/traefik",
-        "**{,/}bitnamicharts/cert-manager"
-      ],
+      "matchPackageNames": ["code.forgejo.org/forgejo-helm/forgejo", "ghcr.io/traefik/helm/traefik", "**{,/}bitnamicharts/cert-manager"],
       "commitMessageTopic": "helm chart {{depName}}"
     },
     {
@@ -32,10 +28,7 @@
       "description": "disable forgejo helm major updates of old versions",
       "matchPackageNames": ["code.forgejo.org/forgejo-helm/forgejo"],
       "matchUpdateTypes": ["major"],
-      "matchFileNames": [
-        "flux/apps/forgejo-next/**",
-        "flux/apps/forgejo-next-v{7,8}/**"
-      ],
+      "matchFileNames": ["flux/apps/forgejo-next/**", "flux/apps/forgejo-next-v{7,8}/**"],
       "enabled": false
     }
   ]

@@ -12,4 +12,4 @@ gotk-components.yaml
 *.enc.pem
 
 # helm templates
-**/templates/**/*.yaml
+#**/templates/**/*.yaml

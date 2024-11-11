@@ -36,12 +36,12 @@ spec:
     gitea:
       # initial admin user and password from forgejo-next-username-and-password
       config:
-        APP_NAME: "FOR TESTING ONLY, ALL DATA CAN BE WIPED OUT AT ANY TIME"
+        APP_NAME: 'FOR TESTING ONLY, ALL DATA CAN BE WIPED OUT AT ANY TIME'
         server:
           ROOT_URL: https://v9.next.forgejo.org/
           DOMAIN: v9.next.forgejo.org
           SSH_DOMAIN: v9.next.forgejo.org
-          SSH_PORT: "2090"
+          SSH_PORT: '2090'
           LFS_START_SERVER: true
         service:
           REGISTER_EMAIL_CONFIRM: true
@@ -53,8 +53,8 @@ spec:
           SEND_NOTIFICATION_EMAIL_ON_NEW_USER: true
         cors:
           ENABLED: true
-          ALLOW_DOMAIN: "*"
-          HEADERS: "Access-Control-Allow-Origin"
+          ALLOW_DOMAIN: '*'
+          HEADERS: 'Access-Control-Allow-Origin'
         database:
           DB_TYPE: sqlite3
         session:
@@ -70,7 +70,7 @@ spec:
           ENABLE_OPENID_SIGNIN: true
           ENABLE_OPENID_SIGNUP: true
         cron.archive_cleanup:
-          SCHEDULE: "@hourly"
-          OLDER_THAN: "2h"
+          SCHEDULE: '@hourly'
+          OLDER_THAN: '2h'
         oauth2:
           ENABLE_ADDITIONAL_GRANT_SCOPES: true

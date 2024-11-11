@@ -6,7 +6,7 @@ metadata:
   name: matrix
   namespace: flux-system
 spec:
-  summary: "Forgejo k8s error"
+  summary: 'Forgejo k8s error'
   providerRef:
     name: matrix-bot
   eventSeverity: error
@@ -42,6 +42,6 @@ metadata:
 spec:
   type: matrix
   address: https://matrix.org
-  channel: "!BKzDWOjAkgzGrGlnYI:matrix.org"
+  channel: '!BKzDWOjAkgzGrGlnYI:matrix.org'
   secretRef:
     name: matrix-token
