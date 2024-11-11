@@ -7,7 +7,7 @@ spec:
   interval: 30m
   chart:
     spec:
-      chart: ./flux/infrastructure/charts/static-site
+      chart: ./flux/apps/charts/static-site
       sourceRef:
         kind: GitRepository
         name: flux-system
