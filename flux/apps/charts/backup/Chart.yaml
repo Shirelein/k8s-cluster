@@ -1,4 +1,5 @@
 apiVersion: v2
 name: forgejo-backup
-version: 1.0.3 # need increment on any manifest change
+version: 1.0.4 # need increment on any manifest change
 description: Forgejo backup
+icon: https://codeberg.org/forgejo/website/raw/commit/71d0b02ee9dca1ea97b85da3c5fa0a917e4ccfd0/public/favicon.svg
