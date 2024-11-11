@@ -1,4 +1,4 @@
 apiVersion: v2
 name: static-site
-version: 1.0.8 # need increment on any manifest change
+version: 1.0.9 # need increment on any manifest change
 description: Static website

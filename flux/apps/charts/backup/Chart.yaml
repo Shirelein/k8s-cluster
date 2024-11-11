@@ -1,4 +1,4 @@
 apiVersion: v2
 name: forgejo-backup
-version: 1.0.2 # need increment on any manifest change
+version: 1.0.3 # need increment on any manifest change
 description: Forgejo backup

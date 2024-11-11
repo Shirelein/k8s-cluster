@@ -9,6 +9,8 @@ spec:
   jobTemplate:
     spec:
       template:
+        automountServiceAccountToken: false
+        enableServiceLinks: false
         spec:
           containers:
 

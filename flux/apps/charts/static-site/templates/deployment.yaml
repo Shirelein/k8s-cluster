@@ -12,6 +12,8 @@ spec:
       labels:
         app.kubernetes.io/name: static-site-{{ .Release.Name }}
     spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
       volumes:
       - name: static-files
         emptyDir: {}
