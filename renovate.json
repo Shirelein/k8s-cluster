@@ -20,8 +20,6 @@
     {
       "description": "split forgejo helm major updates",
       "matchPackageNames": ["code.forgejo.org/forgejo-helm/forgejo"],
-      "matchUpdateTypes": ["major"],
-      "additionalBranchPrefix": "forgejo-major",
       "separateMultipleMajor": true
     },
     {
