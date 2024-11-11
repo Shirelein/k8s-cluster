@@ -34,7 +34,7 @@ spec:
           image: docker.io/bitnami/nginx:1.26
           volumeMounts:
           - name: static-files
-            mountPath: /usr/share/nginx
+            mountPath: /app
           ports:
             - name: http
               containerPort: 8080
