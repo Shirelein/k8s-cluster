@@ -26,7 +26,7 @@ jobs:
     steps:
       - name: checkout k8s-cluster
         run: |
-          git clone --depth 1 https://placeholder:${{ secrets.SYNC_TOKEN }}@code.forgejo.org/${{ GITHUB_REPOSITORY }} k8s-cluster
+          git clone --depth 1 https://placeholder:${{ secrets.SYNC_TOKEN }}@code.forgejo.org/${GITHUB_REPOSITORY} k8s-cluster
 
       - name: collect update
         id: update
@@ -68,4 +68,4 @@ jobs:
       - name: clear the issue labels
         if: always()
         run: |
-          curl  -X PUT -H 'Content-Type: application/json' --data '{"labels":[]}' https://placeholder:${{ secrets.SYNC_TOKEN }}@code.forgejo.org/api/v1/repos/${{ GITHUB_REPOSITORY }}/issues/${{ github.event.issue.number }}/labels
+          curl  -X PUT -H 'Content-Type: application/json' --data '{"labels":[]}' https://placeholder:${{ secrets.SYNC_TOKEN }}@code.forgejo.org/api/v1/repos/${GITHUB_REPOSITORY}/issues/${{ github.event.issue.number }}/labels
