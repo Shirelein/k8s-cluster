@@ -60,6 +60,16 @@ The other variables depend on the setup.
 
 `./setup.sh setup_ufw`
 
+## Incremental backups
+
+Using [Hetzner Storage Box](https://www.hetzner.com/storage/storage-box/) and [SSH keys](https://docs.hetzner.com/storage/storage-box/backup-space-ssh-keys).
+
+* `ssh-keygen -f backup -t ed25519`
+* `kubectl create secret generic --namespace forgejo-next --type=kubernetes.io/ssh-auth backup-ssh-key --from-file=ssh-privatekey=backup --from-file=ssh-publickey=backup.pub`
+* Reset the SSH password at https://robot.hetzner.com/storage
+* `cat backup.pub | ssh -p23 u432374@u432374.your-storagebox.de install-ssh-key` # use the password
+* `ssh -i backup -p23 u432374@u432374.your-storagebox.de ls -la` # verify the key was installed
+
 ## DRBD
 
 DRBD is [configured](https://linbit.com/drbd-user-guide/drbd-guide-9_0-en/#p-work) with:

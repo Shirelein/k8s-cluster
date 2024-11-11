@@ -5,6 +5,7 @@ resources:
   - pvc.yaml
   - ../base/forgejo-next/forgejo
   - forgejo-route.yaml
+  - backup.yaml
 # https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patches/
 patches:
   - target:
