@@ -25,7 +25,7 @@ spec:
             git init &&
             git remote add origin {{ .Values.git }} &&
             git fetch --depth=1 {{ .Values.sha }} &&
-            git worktree add /nginx/html {{ .Values.sha }} &&
+            git worktree add /nginx/html {{ .Values.sha }}
           volumeMounts:
           - name: static-files
             mountPath: /nginx
