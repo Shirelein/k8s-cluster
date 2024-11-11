@@ -1,0 +1,70 @@
+name: sync
+
+on:
+  issues:
+    types:
+      - labeled
+
+jobs:
+  info:
+    runs-on: docker
+    container:
+      image: code.forgejo.org/oci/node:20-bookworm
+    steps:
+      - name: event
+          cat <<'EOF'
+          ${{ toJSON(github.event) }}
+          EOF
+
+  static-site:
+    if: secrets.SYNC_TOKEN != '' && contains(vars.KNOWN_STATIC_SITES, github.event.issue.title) && github.event.label.name == 'sync'
+    runs-on: docker-bookworm
+    container:
+      image: 'code.forgejo.org/oci/node:20-bookworm'
+
+    steps:
+      - name: checkout k8s-cluster
+        run: |
+          git clone --depth 1 https://placeholder:${{ secrets.SYNC_TOKEN }}@code.forgejo.org/${{ GITHUB_REPOSITORY }} k8s-cluster
+
+      - name: collect update
+        id: update
+        run: |
+          set -x
+          url="${{ github.event.issue.title }}"
+
+          set $(git ls-remote --quiet "$url" main)
+          echo "sha=$1" >> "$GITHUB_OUTPUT"
+
+          file=$(grep -l "git: *$url" k8s-cluster/flux/apps/static-site/*.yaml)
+          echo "file=$file" >> "$GITHUB_OUTPUT"
+
+      - name: update SHA
+        run: |
+          set -x
+          sed -i -e 's/sha:.*/sha: ${{ steps.update.outputs.sha }}/' ${{ steps.update.outputs.file }}
+
+      - name: git commit
+        id: commit
+        run: |
+          cd k8s-cluster
+          git add .
+          git config user.email contact+forgejo-k8s-cluster@forgejo.org
+          git config user.name Forgejo
+          if git commit -m 'update static-site ${{ github.event.issue.title }}' ; then
+            changed=true
+          else
+            changed=false
+          fi
+          echo "changed=${changed}" >> "$GITHUB_OUTPUT"
+
+      - name: git push
+        if: ${{ steps.commit.outputs.changed == 'true' }}
+        run: |
+          cd k8s-cluster
+          git push
+
+      - name: clear the issue labels
+        if: always()
+        run: |
+          curl  -X PUT -H 'Content-Type: application/json' --data '{"labels":[]}' https://placeholder:${{ secrets.SYNC_TOKEN }}@code.forgejo.org/api/v1/repos/${{ GITHUB_REPOSITORY }}/issues/${{ github.event.issue.number }}/labels

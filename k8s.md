@@ -148,6 +148,10 @@ The token used by the `next-digest` repository is issued from the `forgejo-k8s-c
 
 > **NOTE** various other methods for doing the same [were explored](https://code.forgejo.org/infrastructure/k8s-cluster/issues/18).
 
+## Updating static-site
+
+The token `SYNC_TOKEN` used by the `sync.yaml` workflow is issued from the `forgejo-k8s-cluster` service account, member of the `mergers` team. It has no known password or valid email. Login as `forgejo-k8s-cluster` can only be done by reseting the password from the admin interface.
+
 ## Prepare storage
 
 A directory must exist before a [PV](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) can be created to use it via NFS.
