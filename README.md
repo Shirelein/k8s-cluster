@@ -17,3 +17,17 @@ The forgejo-matrix-devops account on matrix.org is associated with the matrix-de
 <https://hetzner05.forgejo.org> & <https://hetzner06.forgejo.org> run on [EX44](https://www.hetzner.com/dedicated-rootserver/ex44) Hetzner hardware.
 
 Nodes of [a k8s cluster](k8s.md).
+
+## Development
+
+Install following tools locally:
+
+- `node`
+- `pnpm` or enable `corepack`
+- `helm`
+- `flux`
+
+Run `pnpm install` after code checkout to prepare development.
+This installs git hooks to fix simple lint issues.
+
+You can run `pnpm lint` to run all lint checks.
