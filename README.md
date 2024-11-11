@@ -5,6 +5,7 @@ There is a [dedicated chatroom](https://matrix.to/#/#forgejo-ci:matrix.org). A m
 - Setting up a new [K8S/DRBD/NFS k8s node](k8s.md) deployed with flux.
 - Maintenance and disaster recovery of a [K8S/DRBD/NFS k8s node](k8s-maintenance.md)
 - Installing a [Forgejo instance in the K8S cluster](k8s-forgejo.md)
+- Local [Development](#development)
 
 ## Monitoring
 
