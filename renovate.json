@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["forgejo/renovate-config"],
+  "extends": ["infrastructure/renovate-config"],
   "flux": {
     "fileMatch": ["^flux/.+\\.ya?ml$"]
   },
@@ -21,6 +21,12 @@
       "description": "split forgejo helm major updates",
       "matchPackageNames": ["code.forgejo.org/forgejo-helm/forgejo"],
       "separateMultipleMajor": true
+    },
+    {
+      "description": "split forgejo helm major and minor updates",
+      "matchPackageNames": ["code.forgejo.org/forgejo-helm/forgejo"],
+      "matchUpdateTypes": ["major"],
+      "additionalBranchPrefix": "major-"
     },
     {
       "description": "disable forgejo helm major updates of old versions",
