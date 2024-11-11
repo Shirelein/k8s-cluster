@@ -13,24 +13,25 @@ spec:
   eventSources:
     - kind: GitRepository
       name: '*'
-    - kind: HelmRelease
+    - kind: HelmChart
       name: '*'
     - kind: HelmRelease
       name: '*'
-      namespace: kube-system # watch on different namespace, defaults to metadata.namespace
-    - kind: HelmRelease
-      name: '*'
-      namespace: metallb-system # watch on different namespace, defaults to metadata.namespace
-    - kind: HelmRelease
-      name: '*'
-      namespace: forgejo-next # watch on different namespace, defaults to metadata.namespace
-    - kind: HelmRelease
-      name: '*'
-      namespace: static-site # watch on different namespace, defaults to metadata.namespace
     - kind: HelmRepository
       name: '*'
     - kind: Kustomization
       name: '*'
+
+    # watch on different namespace, defaults to metadata.namespace
+    - kind: HelmRelease
+      name: '*'
+      namespace: metallb-system
+    - kind: HelmRelease
+      name: '*'
+      namespace: forgejo-next
+    - kind: HelmRelease
+      name: '*'
+      namespace: static-site
 ---
 # https://fluxcd.io/flux/components/notification/providers/#matrix
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
