@@ -24,6 +24,9 @@ spec:
     - kind: HelmRelease
       name: '*'
       namespace: forgejo-next # watch on different namespace, defaults to metadata.namespace
+    - kind: HelmRelease
+      name: '*'
+      namespace: static-site # watch on different namespace, defaults to metadata.namespace
     - kind: HelmRepository
       name: '*'
     - kind: Kustomization
