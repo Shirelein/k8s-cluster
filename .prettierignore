@@ -1,0 +1,15 @@
+/node_modules
+/.pnpm-store
+/pnpm-lock.yaml
+
+
+# flux generated
+gotk-components.yaml
+
+# generated files
+*.enc.yaml
+*.enc.json
+*.enc.pem
+
+# helm templates
+#**/templates/**/*.yaml

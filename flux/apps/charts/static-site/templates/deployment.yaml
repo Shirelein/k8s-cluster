@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: static-site-{{ .Release.Name }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{.Release.Namespace}}
 spec:
   selector:
     matchLabels:
@@ -15,29 +15,29 @@ spec:
       automountServiceAccountToken: false
       enableServiceLinks: false
       volumes:
-      - name: static-files
-        emptyDir: {}
+        - name: static-files
+          emptyDir: {}
       initContainers:
         - name: static-site-git-{{ .Release.Name }}
           image: docker.io/bitnami/git:2.47.0
           command:
-          - sh
-          - -c
-          - |
-            git init &&
-            git remote add origin {{ .Values.git }} &&
-            git fetch --depth=1 origin {{ .Values.sha }} &&
-            git worktree add /app {{ .Values.sha }}
+            - sh
+            - -c
+            - |
+              git init &&
+              git remote add origin {{ .Values.git }} &&
+              git fetch --depth=1 origin {{ .Values.sha }} &&
+              git worktree add /app {{ .Values.sha }}
           volumeMounts:
-          - name: static-files
-            mountPath: /app
+            - name: static-files
+              mountPath: /app
       containers:
         - name: static-site-nginx-{{ .Release.Name }}
           image: docker.io/bitnami/nginx:1.26
           volumeMounts:
-          - name: static-files
-            mountPath: /app
-            readOnly: true
+            - name: static-files
+              mountPath: /app
+              readOnly: true
           ports:
             - name: http
               containerPort: 8080

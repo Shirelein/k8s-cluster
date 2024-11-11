@@ -3,9 +3,9 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: backup-v{{ .Values.major }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{.Release.Namespace}}
 spec:
-  schedule: "@daily"
+  schedule: '@daily'
   jobTemplate:
     spec:
       template:
@@ -13,35 +13,36 @@ spec:
         enableServiceLinks: false
         spec:
           containers:
+            - name: backup-v{{ .Values.major }}
 
-          - name: backup-v{{ .Values.major }}
+              image: quay.io/instrumentisto/rsync-ssh:alpine3.20
 
-            image: quay.io/instrumentisto/rsync-ssh:alpine3.20
+              command: ['/bin/sh']
+              args:
+                [
+                  '-c',
+                  "set -x ; ssh -oStrictHostKeyChecking=no -p23 {{ .Values.storageBox }} mkdir -p forgejo-next-v{{ .Values.major }} ; rsync -e 'ssh -oStrictHostKeyChecking=no -p23' -zvaHS --delete --link-dest ../../forgejo-next-v{{ .Values.major }}/backup-day-`date +%d -d yesterday`/  /data/ {{ .Values.storageBox }}:forgejo-next-v{{ .Values.major }}/backup-day-`date +%d`/",
+                ]
+              volumeMounts:
+                - name: data-volume
+                  mountPath: /data
+                  readOnly: true
 
-            command: ["/bin/sh"]
-            args: ["-c", "set -x ; ssh -oStrictHostKeyChecking=no -p23 {{ .Values.storageBox }} mkdir -p forgejo-next-v{{ .Values.major }} ; rsync -e 'ssh -oStrictHostKeyChecking=no -p23' -zvaHS --delete --link-dest ../../forgejo-next-v{{ .Values.major }}/backup-day-`date +%d -d yesterday`/  /data/ {{ .Values.storageBox }}:forgejo-next-v{{ .Values.major }}/backup-day-`date +%d`/"]
-            volumeMounts:
-
-            - name: data-volume
-              mountPath: /data
-              readOnly: true
-
-            - name: sshdir
-              mountPath: /root/.ssh
-              readOnly: true
+                - name: sshdir
+                  mountPath: /root/.ssh
+                  readOnly: true
 
           volumes:
+            - name: data-volume
+              persistentVolumeClaim:
+                claimName: forgejo-next-v{{ .Values.major }}
 
-          - name: data-volume
-            persistentVolumeClaim:
-              claimName: forgejo-next-v{{ .Values.major }}
-
-          - name: sshdir
-            secret:
-              secretName: backup-ssh-key
-              defaultMode: 0400
-              items:
-                - key: ssh-privatekey
-                  path: id_ed25519
+            - name: sshdir
+              secret:
+                secretName: backup-ssh-key
+                defaultMode: 0400
+                items:
+                  - key: ssh-privatekey
+                    path: id_ed25519
 
           restartPolicy: Never

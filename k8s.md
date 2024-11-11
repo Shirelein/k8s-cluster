@@ -64,11 +64,11 @@ The other variables depend on the setup.
 
 Using [Hetzner Storage Box](https://www.hetzner.com/storage/storage-box/) and [SSH keys](https://docs.hetzner.com/storage/storage-box/backup-space-ssh-keys).
 
-* `ssh-keygen -f backup -t ed25519`
-* `kubectl create secret generic --namespace forgejo-next --type=kubernetes.io/ssh-auth backup-ssh-key --from-file=ssh-privatekey=backup --from-file=ssh-publickey=backup.pub`
-* Reset the SSH password at https://robot.hetzner.com/storage
-* `cat backup.pub | ssh -p23 u432374@u432374.your-storagebox.de install-ssh-key` # use the password
-* `ssh -i backup -p23 u432374@u432374.your-storagebox.de ls -la` # verify the key was installed
+- `ssh-keygen -f backup -t ed25519`
+- `kubectl create secret generic --namespace forgejo-next --type=kubernetes.io/ssh-auth backup-ssh-key --from-file=ssh-privatekey=backup --from-file=ssh-publickey=backup.pub`
+- Reset the SSH password at <https://robot.hetzner.com/storage>
+- `cat backup.pub | ssh -p23 u432374@u432374.your-storagebox.de install-ssh-key` # use the password
+- `ssh -i backup -p23 u432374@u432374.your-storagebox.de ls -la` # verify the key was installed
 
 ## DRBD
 
@@ -77,7 +77,6 @@ DRBD is [configured](https://linbit.com/drbd-user-guide/drbd-guide-9_0-en/#p-wor
 `./setup.sh setup_drbd`
 
 Once two nodes have DRBD setup for the first time, it can be initialized by [pretending all is in sync](https://linbit.com/drbd-user-guide/drbd-guide-9_0-en/#s-skip-initial-resync) to save the initial bitmap sync since there is actually no data at all.
-
 
 ```sh
 sudo drbdadm primary r1
@@ -107,7 +106,7 @@ For nodes joining the cluster:
 
 ## flux
 
-Add [flux](https://fluxcd.io/flux/use-cases/helm/) to deploy from https://code.forgejo.org/infrastructure/k8s-cluster.
+Add [flux](https://fluxcd.io/flux/use-cases/helm/) to deploy from <https://code.forgejo.org/infrastructure/k8s-cluster>.
 
 The [flux/clusters/flux-system/gotk-components.yaml](https://code.forgejo.org/infrastructure/k8s-cluster/src/branch/main/flux/clusters/flux-system/gotk-components.yaml) file is [created and committed to the repository](https://code.forgejo.org/infrastructure/documentation/issues/43#issuecomment-16755) with:
 
@@ -135,15 +134,15 @@ receiver_name=forgejo-???
 echo https://flux.k8s.forgejo.org$(kubectl --namespace flux-system get -o go-template='{{.status.webhookPath}}' Receiver $receiver_name)
 ```
 
-* For the [k8s-cluster repository webhook](https://code.forgejo.org/infrastructure/k8s-cluster/settings/hooks)
-  * receiver_name=forgejo-flux-receiver
-  * secret_name=webhook-flux-token
+- For the [k8s-cluster repository webhook](https://code.forgejo.org/infrastructure/k8s-cluster/settings/hooks)
+  - receiver_name=forgejo-flux-receiver
+  - secret_name=webhook-flux-token
 
-## Updating v*.next.forgejo.org
+## Updating v\*.next.forgejo.org
 
-For each Forgejo major version there is a corresponding vX.next.forgejo.org instance. It runs the latest OCI build published in https://codeberg.org/forgejo-experimental/ under the tag `vX.0-test`. Since the tag does not change, the digest must be set for the upgrade to happen.
+For each Forgejo major version there is a corresponding vX.next.forgejo.org instance. It runs the latest OCI build published in <https://codeberg.org/forgejo-experimental/> under the tag `vX.0-test`. Since the tag does not change, the digest must be set for the upgrade to happen.
 
-The https://code.forgejo.org/infrastructure/next-digest repository is updated by the [release publish workflow](https://codeberg.org/forgejo/forgejo/src/branch/forgejo/.forgejo/workflows/publish-release.yml). A workflow in this repository uses a token with write permissions to this repository and will commit the updated digest to this repository.
+The <https://code.forgejo.org/infrastructure/next-digest> repository is updated by the [release publish workflow](https://codeberg.org/forgejo/forgejo/src/branch/forgejo/.forgejo/workflows/publish-release.yml). A workflow in this repository uses a token with write permissions to this repository and will commit the updated digest to this repository.
 
 The token used by the `next-digest` repository is issued from the `forgejo-k8s-cluster` service account, member of the `mergers` team. It has no known password or valid email. Login as `forgejo-k8s-cluster` can only be done by reseting the password from the admin interface.
 

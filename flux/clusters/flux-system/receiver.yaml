@@ -14,21 +14,21 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
   tls:
-  - hosts:
-      - flux.k8s.forgejo.org
-    secretName: tls-forgejo-flux-ingress-http
+    - hosts:
+        - flux.k8s.forgejo.org
+      secretName: tls-forgejo-flux-ingress-http
   rules:
-  - host: flux.k8s.forgejo.org
-    http:
-      paths:
-      - pathType: Prefix
-        path: /
-        backend:
-          service:
-            # pre-defined by flux
-            name: webhook-receiver
-            port:
-              name: http
+    - host: flux.k8s.forgejo.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                # pre-defined by flux
+                name: webhook-receiver
+                port:
+                  name: http
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Receiver
@@ -38,8 +38,8 @@ metadata:
 spec:
   type: github
   events:
-    - "ping"
-    - "push"
+    - 'ping'
+    - 'push'
   secretRef:
     name: webhook-flux-token
   resources:

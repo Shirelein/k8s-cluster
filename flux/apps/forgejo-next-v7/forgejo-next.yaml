@@ -82,14 +82,14 @@ spec:
 
     gitea:
       config:
-        APP_NAME: "FOR TESTING ONLY, ALL DATA CAN BE WIPED OUT AT ANY TIME"
+        APP_NAME: 'FOR TESTING ONLY, ALL DATA CAN BE WIPED OUT AT ANY TIME'
         log:
-          LEVEL: "info"
+          LEVEL: 'info'
         server:
           ROOT_URL: https://v7.next.forgejo.org/
           DOMAIN: v7.next.forgejo.org
           SSH_DOMAIN: v7.next.forgejo.org
-          SSH_PORT: "2070"
+          SSH_PORT: '2070'
           LFS_START_SERVER: true
           OFFLINE_MODE: true
         repository:
@@ -104,14 +104,14 @@ spec:
           SEND_NOTIFICATION_EMAIL_ON_NEW_USER: true
         cors:
           ENABLED: true
-          ALLOW_DOMAIN: "*"
-          HEADERS: "Access-Control-Allow-Origin"
+          ALLOW_DOMAIN: '*'
+          HEADERS: 'Access-Control-Allow-Origin'
         mailer:
           ENABLED: true
-          FROM: "forgejo-next@posteo.com"
-          PROTOCOL: "smtp+starttls"
-          SMTP_ADDR: "posteo.de"
-          SMTP_PORT: "587"
+          FROM: 'forgejo-next@posteo.com'
+          PROTOCOL: 'smtp+starttls'
+          SMTP_ADDR: 'posteo.de'
+          SMTP_PORT: '587'
         database:
           PATH: /data/gitea.db
           DB_TYPE: sqlite3
@@ -124,5 +124,5 @@ spec:
         indexer:
           REPO_INDEXER_ENABLED: true
         cron.archive_cleanup:
-          SCHEDULE: "@hourly"
-          OLDER_THAN: "2h"
+          SCHEDULE: '@hourly'
+          OLDER_THAN: '2h'

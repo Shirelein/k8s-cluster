@@ -16,5 +16,4 @@ patches:
         path: /metadata/name
         value: forgejo-v8
   - path: forgejo.yaml
-
   - path: ../digest/v8.yaml

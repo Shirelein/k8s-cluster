@@ -1,0 +1,32 @@
+{
+  "name": "infra-k8s-cluster",
+  "version": "0.0.0-PLACEHOLDER",
+  "private": true,
+  "description": "Forgejo k8s infrastructure",
+  "repository": "https://code.forgejo.org/infrastructure/k8s-cluster.git",
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "lint": "run-s markdownlint prettier",
+    "lint:fix": "run-s markdownlint:fix prettier:fix",
+    "markdownlint": "markdownlint-cli2 '**/*.md'",
+    "markdownlint:fix": "markdownlint-cli2 --fix '**/*.md'",
+    "prepare": "husky",
+    "prettier": "prettier -c -u '{**/*,*}.*'",
+    "prettier:fix": "prettier -u '{**/*,*}.*' --write"
+  },
+  "devDependencies": {
+    "husky": "9.1.6",
+    "lint-staged": "15.2.10",
+    "markdownlint": "0.36.1",
+    "markdownlint-cli2": "0.14.0",
+    "npm-run-all2": "7.0.1",
+    "prettier": "3.3.3",
+    "prettier-plugin-packagejson": "2.5.3"
+  },
+  "packageManager": "pnpm@9.12.3",
+  "engines": {
+    "node": "^22.11.0",
+    "pnpm": "^9.0.0"
+  }
+}

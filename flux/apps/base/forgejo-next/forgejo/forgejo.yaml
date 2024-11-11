@@ -63,8 +63,8 @@ spec:
       config:
         mailer:
           ENABLED: true
-          FROM: "forgejo-next@posteo.com"
-          PROTOCOL: "smtp+starttls"
-          SMTP_ADDR: "posteo.de"
-          SMTP_PORT: "587"
+          FROM: 'forgejo-next@posteo.com'
+          PROTOCOL: 'smtp+starttls'
+          SMTP_ADDR: 'posteo.de'
+          SMTP_PORT: '587'
           # user and password from forgejo-next-posteo-mailer

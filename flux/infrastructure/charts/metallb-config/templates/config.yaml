@@ -4,5 +4,5 @@ metadata:
   name: first-pool
 spec:
   addresses:
-   - 188.40.16.47/32
-   - 2a01:4f8:fff2:48::2/128
+    - 188.40.16.47/32
+    - 2a01:4f8:fff2:48::2/128
