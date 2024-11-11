@@ -9,7 +9,7 @@ env:
   HELM_VERSION: v3.16.2 # renovate: datasource=github-releases depName=helm packageName=helm/helm
 
 jobs:
-  lint-files:
+  lint:
     runs-on: docker-bookworm
     container:
       image: code.forgejo.org/forgejo-contrib/renovate:39.7.4@sha256:39812afb2d242da1aec2cc130b7a86a717dabeca40d5e74e57e632b3f429e4fa
@@ -28,24 +28,14 @@ jobs:
         run: install-tool helm ${{ env.HELM_VERSION }}
 
       - run: pnpm install
-      - run: pnpm lint
 
-  lint-renovate:
-    runs-on: docker-bookworm
-    container:
-      image: code.forgejo.org/forgejo-contrib/renovate:39.7.4@sha256:39812afb2d242da1aec2cc130b7a86a717dabeca40d5e74e57e632b3f429e4fa
+      - run: pnpm markdownlint
 
-    strategy:
-      matrix:
-        file:
-          - renovate.json
+      - run: pnpm prettier
 
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          show-progress: false
+      - run: pnpm lint:charts
 
-      - run: node bin/validator.cjs ${{ matrix.file }}
+      - run: node bin/validator.cjs renovate.json
         env:
           LOG_LEVEL: debug
           RENOVATE_PLATFORM: gitea
