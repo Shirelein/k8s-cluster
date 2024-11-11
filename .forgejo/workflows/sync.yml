@@ -65,7 +65,12 @@ jobs:
           cd k8s-cluster
           git push
 
-      - name: clear the issue labels
+      - name: clear the sync label
         if: always()
-        run: |
-          curl  -X PUT -H 'Content-Type: application/json' --data '{"labels":[]}' https://placeholder:${{ secrets.SYNC_TOKEN }}@code.forgejo.org/api/v1/repos/${GITHUB_REPOSITORY}/issues/${{ github.event.issue.number }}/labels
+        uses: https://code.forgejo.org/infrastructure/issue-action/set@v1.0.0
+        with:
+          forgejo: ${{ env.GITHUB_SERVER_URL }}
+          repository: ${{ env.GITHUB_REPOSITORY }}
+          token: ${{ secrets.SYNC_TOKEN }}
+          numbers: ${{ github.event.issue.number }}
+          unlabel: sync
