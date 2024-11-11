@@ -18,6 +18,13 @@
       "commitMessageTopic": "helm chart {{depName}}"
     },
     {
+      "description": "split forgejo helm major updates",
+      "matchPackageNames": ["code.forgejo.org/forgejo-helm/forgejo"],
+      "matchUpdateTypes": ["major"],
+      "additionalBranchPrefix": "forgejo-major",
+      "separateMultipleMajor": true
+    },
+    {
       "description": "disable forgejo helm major updates of old versions",
       "matchPackageNames": ["code.forgejo.org/forgejo-helm/forgejo"],
       "matchUpdateTypes": ["major"],
