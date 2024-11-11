@@ -14,7 +14,7 @@ spec:
 
           - name: backup-v{{ .Values.major }}
 
-            image: docker.io/bitnami/git:2.47
+            image: quay.io/instrumentisto/rsync-ssh:alpine3.20
 
             command: ["/bin/sh"]
             args: ["-c", "set -x ; ssh -oStrictHostKeyChecking=no -p23 {{ .Values.storageBox }} mkdir -p forgejo-next-v{{ .Values.major }} ; rsync -e 'ssh -oStrictHostKeyChecking=no -p23' -zvaHS --delete --link-dest ../../forgejo-next-v{{ .Values.major }}/backup-day-`date +%d -d yesterday`/  /data/ {{ .Values.storageBox }}:forgejo-next-v{{ .Values.major }}/backup-day-`date +%d`/"]
