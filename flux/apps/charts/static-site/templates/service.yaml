@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: static-site-{{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: static-site-{{ .Release.Name }}
 spec:
   selector:
     app.kubernetes.io/name: static-site-{{ .Release.Name }}
