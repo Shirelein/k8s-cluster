@@ -7,7 +7,7 @@
   "license": "AGPL-3.0-only",
   "type": "module",
   "scripts": {
-    "lint": "run-s markdownlint prettier helm:charts",
+    "lint": "run-s markdownlint prettier lint:charts",
     "lint:fix": "run-s markdownlint:fix prettier:fix",
     "lint:charts": "run-s 'lint:chart:**'",
     "lint:chart:apps:backup": "helm lint --strict flux/apps/charts/backup",
