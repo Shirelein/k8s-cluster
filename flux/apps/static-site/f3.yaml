@@ -8,6 +8,7 @@ spec:
   chart:
     spec:
       chart: ./flux/infrastructure/charts/static-site
+      namespace: static-site
       sourceRef:
         kind: GitRepository
         name: flux-system
