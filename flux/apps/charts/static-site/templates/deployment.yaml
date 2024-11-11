@@ -25,10 +25,10 @@ spec:
             git init &&
             git remote add origin {{ .Values.git }} &&
             git fetch --depth=1 origin {{ .Values.sha }} &&
-            git worktree add /nginx/html {{ .Values.sha }}
+            git worktree add /app {{ .Values.sha }}
           volumeMounts:
           - name: static-files
-            mountPath: /nginx
+            mountPath: /app
       containers:
         - name: static-site-nginx-{{ .Release.Name }}
           image: docker.io/bitnami/nginx:1.26
