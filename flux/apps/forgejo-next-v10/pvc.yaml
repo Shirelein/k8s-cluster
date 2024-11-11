@@ -1,15 +1,20 @@
 ---
-apiVersion: v1
-kind: PersistentVolume
+# https://fluxcd.io/flux/components/helm/helmreleases/
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
 metadata:
-  name: forgejo-next-v10
+  name: forgejo-pvc-v10
 spec:
-  nfs:
-    path: /k8s/forgejo-next-v10
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: forgejo-next-v10
-spec:
-  volumeName: forgejo-next-v10
+  interval: 30m
+  chart:
+    spec:
+      chart: ./flux/apps/charts/pvc
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      interval: 12h
+  values:
+    major: '10'
+  driftDetection:
+    mode: enabled
