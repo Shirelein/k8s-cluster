@@ -15,5 +15,5 @@ spec:
       interval: 12h
   values:
     git: https://code.forgejo.org/f3/html-documentation
-    sha: 8d8d7387fc46bd96abe90502305117350656949a
+    sha: 7c2f48f328b4e1fee3880e491340067a8a15ce40
     host: f3.forgefriends.org
