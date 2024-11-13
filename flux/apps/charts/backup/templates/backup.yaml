@@ -19,10 +19,13 @@ spec:
 
               command: ['/bin/sh']
               args:
-                [
-                  '-c',
-                  "set -x ; ssh -oStrictHostKeyChecking=no -p23 {{ .Values.storageBox }} mkdir -p forgejo-next-v{{ .Values.major }} ; rsync -e 'ssh -oStrictHostKeyChecking=no -p23' -zvaHS --delete --link-dest ../../forgejo-next-v{{ .Values.major }}/backup-day-`date +%d -d yesterday`/  /data/ {{ .Values.storageBox }}:forgejo-next-v{{ .Values.major }}/backup-day-`date +%d`/",
-                ]
+                - -c
+                - |
+                  set -x
+                  apk add coreutils
+                  ssh -oStrictHostKeyChecking=no -p23 {{ .Values.storageBox }} mkdir -p forgejo-next-v{{ .Values.major }}
+                  rsync -e 'ssh -oStrictHostKeyChecking=no -p23' -zvaHS --delete --link-dest ../../forgejo-next-v{{ .Values.major }}/backup-day-`date +%d -d yesterday`/  /data/ {{ .Values.storageBox }}:forgejo-next-v{{ .Values.major }}/backup-day-`date +%d`/
+
               volumeMounts:
                 - name: data-volume
                   mountPath: /data
