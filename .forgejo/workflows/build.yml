@@ -12,7 +12,7 @@ jobs:
   lint:
     runs-on: docker-bookworm
     container:
-      image: code.forgejo.org/forgejo-contrib/renovate:39.10.0@sha256:02142c384374c90258aca06421cd6239baebf695cce13ed542b442e08d82685c
+      image: code.forgejo.org/forgejo-contrib/renovate:39.13.1@sha256:8f22801422b077aa91837960765d56010a7ef8030d127af9a285f1940ee6ebc1
 
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
