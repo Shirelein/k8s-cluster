@@ -108,9 +108,9 @@ spec:
           HEADERS: 'Access-Control-Allow-Origin'
         mailer:
           ENABLED: true
-          FROM: 'forgejo-next@posteo.com'
+          FROM: 'forgejo@forgefriends.org'
           PROTOCOL: 'smtp+starttls'
-          SMTP_ADDR: 'posteo.de'
+          SMTP_ADDR: 'mail.dachary.eu'
           SMTP_PORT: '587'
         database:
           PATH: /data/gitea.db
