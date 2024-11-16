@@ -67,7 +67,7 @@ jobs:
 
       - name: clear the sync label
         if: always()
-        uses: https://code.forgejo.org/infrastructure/issue-action/set@v1.0.0
+        uses: https://code.forgejo.org/infrastructure/issue-action/set@v1.1.0
         with:
           forgejo: ${{ env.GITHUB_SERVER_URL }}
           repository: ${{ env.GITHUB_REPOSITORY }}
