@@ -5,4 +5,4 @@ metadata:
 spec:
   values:
     image:
-      digest: 'sha256:4e95ccec7f8e82ecafed4e12a94d784526a731f43760a717fc7788ab78b10ac8'
+      digest: 'sha256:507e905c7672d8a043cbbd8e80fa35f7e72cdd2b8c2559e78fbc8c61c1863f99'
