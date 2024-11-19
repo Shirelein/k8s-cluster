@@ -36,3 +36,25 @@ When the machine to which the failover IP (failover.forgejo.org) is routed is un
 ### On the other machines
 
 - `sudo ip addr del 10.53.101.100/24 dev enp5s0.4001` # remove NFS server IP
+
+## When code.forgejo.org is down
+
+A [push mirror is configured](https://code.forgejo.org/infrastructure/k8s-cluster/settings) and available at <https://codeberg.org/forgejo/k8s-cluster>. It is synchronized on every push. The service account used for this purpose is a [write collaborator](https://codeberg.org/forgejo/k8s-cluster/settings/collaboration).
+
+1. [update mirror repo to point to mirror](https://codeberg.org/forgejo/k8s-cluster/src/commit/56dc6d19d5a12a131d052dc0018496daba360f87/flux/clusters/flux-system/gotk-sync.yaml#L11).
+1. patch in-cluster to force loading from mirror
+   ```sh
+   cat > use-mirror.yml <<'EOF'
+   apiVersion: source.toolkit.fluxcd.io/v1
+   kind: GitRepository
+   metadata:
+     name: flux-system
+     namespace: flux-system
+   spec:
+     interval: 15m
+     ref:
+       branch: main
+     url: https://codeberg.org/forgejo/k8s-cluster.git
+   EOF
+   kubectl apply --server-side -f use-mirror.yml
+   ```
