@@ -8,7 +8,7 @@ spec:
   interval: 15m
   ref:
     branch: main
-  url: https://code.forgejo.org/infrastructure/k8s-cluster.git
+  url: https://codeberg.org/forgejo/k8s-cluster.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
