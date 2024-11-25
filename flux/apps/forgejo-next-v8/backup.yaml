@@ -17,6 +17,6 @@ spec:
   dependsOn:
     - name: forgejo-pvc-v8
   values:
-    major: '8'
+    pvc: 'forgejo-next-v8'
   driftDetection:
     mode: enabled

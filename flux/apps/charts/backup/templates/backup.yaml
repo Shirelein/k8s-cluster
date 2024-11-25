@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: backup-v{{ .Values.major }}
+  name: backup-{{ .Values.pvc }}
   namespace: {{.Release.Namespace}}
 spec:
   schedule: '@daily'
@@ -13,7 +13,7 @@ spec:
         enableServiceLinks: false
         spec:
           containers:
-            - name: backup-v{{ .Values.major }}
+            - name: backup-{{ .Values.pvc }}
 
               image: quay.io/instrumentisto/rsync-ssh:alpine3.20
 
@@ -23,8 +23,8 @@ spec:
                 - |
                   set -x
                   apk add coreutils
-                  ssh -oStrictHostKeyChecking=no -p23 {{ .Values.storageBox }} mkdir -p forgejo-next-v{{ .Values.major }}
-                  rsync -e 'ssh -oStrictHostKeyChecking=no -p23' -zvaHS --delete --link-dest ../../forgejo-next-v{{ .Values.major }}/backup-day-`date +%d -d yesterday`/  /data/ {{ .Values.storageBox }}:forgejo-next-v{{ .Values.major }}/backup-day-`date +%d`/
+                  ssh -oStrictHostKeyChecking=no -p23 {{ .Values.storageBox }} mkdir -p {{ .Values.pvc }}
+                  rsync -e 'ssh -oStrictHostKeyChecking=no -p23' -zvaHS --delete --link-dest ../../{{ .Values.pvc }}/backup-day-`date +%d -d yesterday`/  /data/ {{ .Values.storageBox }}:{{ .Values.pvc }}/backup-day-`date +%d`/
 
               volumeMounts:
                 - name: data-volume
@@ -38,7 +38,7 @@ spec:
           volumes:
             - name: data-volume
               persistentVolumeClaim:
-                claimName: forgejo-next-v{{ .Values.major }}
+                claimName: {{.Values.pvc}}
 
             - name: sshdir
               secret:
