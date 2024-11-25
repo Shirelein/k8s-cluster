@@ -41,6 +41,9 @@ When the machine to which the failover IP (failover.forgejo.org) is routed is un
 
 A [push mirror is configured](https://code.forgejo.org/infrastructure/k8s-cluster/settings) and available at <https://codeberg.org/forgejo/k8s-cluster>. It is synchronized on every push. The service account used for this purpose is a [write collaborator](https://codeberg.org/forgejo/k8s-cluster/settings/collaboration).
 
+Both repositories have [a webhook configured](./k8s.md#flux) so that the cluster is notified on every push. But only one of them must be activated at any given time. It must be the repository from which k8s will pull, i.e. the one in code.forgejo.org most of the time. Only when code.forgejo.org is unavailable should the other webhook be activated.
+
+1. Activate the [webhook of the mirror](https://codeberg.org/forgejo/k8s-cluster/settings/hooks).
 1. [update mirror repo to point to mirror](https://codeberg.org/forgejo/k8s-cluster/src/commit/56dc6d19d5a12a131d052dc0018496daba360f87/flux/clusters/flux-system/gotk-sync.yaml#L11).
 1. patch in-cluster to force loading from mirror
    ```sh
