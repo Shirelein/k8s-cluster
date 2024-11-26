@@ -47,10 +47,10 @@ spec:
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
       tls:
         - hosts:
-            - code-migration.forgejo.org
+            - code.forgejo.org
           secretName: tls-forgejo-code-ingress-http
       hosts:
-        - host: code-migration.forgejo.org
+        - host: code.forgejo.org
           paths:
             - path: /
               pathType: Prefix
