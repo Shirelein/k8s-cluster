@@ -99,8 +99,10 @@ spec:
           ALLOW_ONLY_EXTERNAL_REGISTRATION: true
         admin:
           SEND_NOTIFICATION_EMAIL_ON_NEW_USER: true
+        cron:
+          ENABLED: false
         mailer:
-          ENABLED: true
+          ENABLED: false
           FROM: 'forgejo@forgefriends.org'
           PROTOCOL: 'smtp+starttls'
           SMTP_ADDR: 'mail.dachary.eu'
