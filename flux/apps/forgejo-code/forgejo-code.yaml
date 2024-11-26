@@ -100,9 +100,9 @@ spec:
         admin:
           SEND_NOTIFICATION_EMAIL_ON_NEW_USER: true
         cron:
-          ENABLED: false
+          ENABLED: true
         mailer:
-          ENABLED: false
+          ENABLED: true
           FROM: 'forgejo@forgefriends.org'
           PROTOCOL: 'smtp+starttls'
           SMTP_ADDR: 'mail.dachary.eu'
