@@ -19,7 +19,7 @@ spec:
           emptyDir: {}
       initContainers:
         - name: static-site-git-{{ .Release.Name }}
-          image: docker.io/bitnami/git:2.47.0
+          image: docker.io/bitnami/git:2.47.1
           command:
             - sh
             - -c
