@@ -28,6 +28,9 @@ spec:
       namespace: metallb-system
     - kind: HelmRelease
       name: '*'
+      namespace: forgejo-code
+    - kind: HelmRelease
+      name: '*'
       namespace: forgejo-next
     - kind: HelmRelease
       name: '*'

@@ -8,6 +8,8 @@
 
 ## Secrets
 
+### v\*.next.forgejo.org
+
 Used in `flux/apps/forgejo-next/forgejo-next.yaml` and [merged into the values](https://fluxcd.io/flux/components/helm/helmreleases/#values-references) and [defined as secrets](https://fluxcd.io/flux/components/helm/helmreleases/#kubeconfig-reference).
 
 ```sh
@@ -45,4 +47,45 @@ stringData:
           PASSWD: "$(openssl rand -hex 20)"
 EOF
 $ kubectl apply --server-side -f forgejo-next-mailer.yaml
+```
+
+### code.forgejo.org
+
+Used in `flux/apps/forgejo-code/forgejo-code.yaml` and [merged into the values](https://fluxcd.io/flux/components/helm/helmreleases/#values-references) and [defined as secrets](https://fluxcd.io/flux/components/helm/helmreleases/#kubeconfig-reference).
+
+```sh
+$ tee forgejo-code-username-and-password.yaml <<EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: forgejo-code-username-and-password
+  namespace: forgejo-code
+type: Opaque
+stringData:
+  values.yaml: |
+    gitea:
+      admin:
+        username: root
+        password: "$(openssl rand -hex 20)"
+EOF
+$ kubectl apply --server-side -f forgejo-code-username-and-password.yaml
+```
+
+```sh
+$ tee forgejo-code-mailer.yaml <<EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: forgejo-code-mailer
+  namespace: forgejo-code
+type: Opaque
+stringData:
+  values.yaml: |
+    gitea:
+      config:
+        mailer:
+          USER: "forgejo@forgefriends.org"
+          PASSWD: "$(openssl rand -hex 20)"
+EOF
+$ kubectl apply --server-side -f forgejo-code-mailer.yaml
 ```

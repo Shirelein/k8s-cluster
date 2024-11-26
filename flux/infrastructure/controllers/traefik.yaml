@@ -33,6 +33,13 @@ spec:
         redirectTo:
           port: websecure
           priority: 1
+      ssh-code:
+        port: 22
+        # https://github.com/traefik/traefik-helm-chart/blob/v32.1.1/traefik/values.yaml#L611-L614
+        # exposed means listens on the public IPs
+        exposedPort: 22
+        expose:
+          default: true
       ssh-next:
         port: 2020
         # https://github.com/traefik/traefik-helm-chart/blob/v32.1.1/traefik/values.yaml#L611-L614

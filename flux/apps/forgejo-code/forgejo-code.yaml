@@ -1,0 +1,123 @@
+# https://fluxcd.io/flux/components/helm/helmreleases/
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: forgejo-code
+spec:
+  interval: 30m
+  chart:
+    spec:
+      # https://code.forgejo.org/forgejo-helm/-/packages/container/forgejo/versions
+      chart: forgejo
+      version: '10.1.1'
+      sourceRef:
+        kind: HelmRepository
+        namespace: flux-system
+        name: forgejo
+      interval: 5m
+  # https://fluxcd.io/flux/components/helm/helmreleases/#values-references
+  valuesFrom:
+    - kind: Secret
+      name: forgejo-code-username-and-password
+    - kind: Secret
+      name: forgejo-code-mailer
+  values:
+    strategy:
+      type: 'Recreate'
+
+    image:
+      registry: codeberg.org
+      repository: forgejo/forgejo
+      tag: '9'
+      rootless: false
+
+    ingress:
+      enabled: true
+      annotations:
+        # https://doc.traefik.io/traefik/v3.1/routing/providers/kubernetes-ingress/#on-ingress
+        # reference middlewares via `<namspace>-<name>@kubernetescrd`
+        traefik.ingress.kubernetes.io/router.middlewares: default-forgejo-ratelimit@kubernetescrd
+        # https://cert-manager.io/docs/usage/ingress/#supported-annotations
+        # https://github.com/cert-manager/cert-manager/issues/2239
+        cert-manager.io/cluster-issuer: letsencrypt-http
+        cert-manager.io/private-key-rotation-policy: Always
+        cert-manager.io/private-key-algorithm: ECDSA
+        cert-manager.io/private-key-size: 384
+        kubernetes.io/ingress.class: traefik
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      tls:
+        - hosts:
+            - code-migration.forgejo.org
+          secretName: tls-forgejo-code-ingress-http
+      hosts:
+        - host: code-migration.forgejo.org
+          paths:
+            - path: /
+              pathType: Prefix
+
+    service:
+      http:
+        type: ClusterIP
+        ipFamilyPolicy: PreferDualStack
+        clusterIP: ~
+      ssh:
+        type: ClusterIP
+        clusterIP: ~
+        ipFamilyPolicy: PreferDualStack
+
+    redis-cluster:
+      enabled: false
+    postgresql:
+      enabled: false
+    postgresql-ha:
+      enabled: false
+
+    persistence:
+      enabled: true
+      create: false
+      claimName: forgejo-code-local
+
+    gitea:
+      config:
+        log:
+          LEVEL: 'info'
+        server:
+          ROOT_URL: https://code.forgejo.org/
+          DOMAIN: code.forgejo.org
+          SSH_DOMAIN: code.forgejo.org
+          LFS_START_SERVER: true
+          OFFLINE_MODE: true
+          LANDING_PAGE: login
+          MINIMUM_KEY_SIZE_CHECK: true
+        repository:
+          ROOT: /data/git/repositories
+        service:
+          REGISTER_EMAIL_CONFIRM: true
+          DEFAULT_KEEP_EMAIL_PRIVATE: true
+          ENABLE_NOTIFY_MAIL: true
+          ALLOW_ONLY_EXTERNAL_REGISTRATION: true
+        admin:
+          SEND_NOTIFICATION_EMAIL_ON_NEW_USER: true
+        mailer:
+          ENABLED: true
+          FROM: 'forgejo@forgefriends.org'
+          PROTOCOL: 'smtp+starttls'
+          SMTP_ADDR: 'mail.dachary.eu'
+          SMTP_PORT: '587'
+        database:
+          PATH: /data/gitea.db
+          DB_TYPE: sqlite3
+          SQLITE_JOURNAL_MODE: wal
+        session:
+          PROVIDER: db
+        cache:
+          ADAPTER: memory
+        packages:
+          LIMIT_SIZE_CONTAINER: '2 GiB'
+        oauth2_client:
+          UPDATE_AVATAR: true
+        queue:
+          TYPE: level
+        cron.archive_cleanup:
+          SCHEDULE: '@hourly'
+          OLDER_THAN: '2h'

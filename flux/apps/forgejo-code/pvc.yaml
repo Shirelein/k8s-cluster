@@ -1,0 +1,68 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: forgejo-code-local
+spec:
+  capacity:
+    storage: 250Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /precious/k8s/forgejo-code
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: forgejo.org/drbd
+              operator: Exists
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: forgejo-code-local
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 250Gi
+  storageClassName: local-storage
+  volumeName: forgejo-code-local
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: forgejo-code
+spec:
+  capacity:
+    storage: 250Gi
+  nfs:
+    server: 10.53.101.100
+    path: /k8s/forgejo-code
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs
+  mountOptions:
+    - noatime
+    - nfsvers=4.2
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: forgejo-code
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 250Gi
+  volumeName: forgejo-code
+  storageClassName: nfs
+  volumeMode: Filesystem
