@@ -5,3 +5,4 @@ resources:
   - pvc.yaml
   - forgejo-code.yaml
   - forgejo-route.yaml
+  - backup.yaml
