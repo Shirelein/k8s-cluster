@@ -15,3 +15,47 @@ spec:
         # Created by the Forgejo helm chart and named <releaseName>-ssh
         - name: forgejo-code-ssh
           port: ssh # forgejo ssh port on kubernetes service
+---
+apiVersion: traefik.io/v1alpha1
+# https://doc.traefik.io/traefik/v3.1/routing/providers/kubernetes-crd/#kind-ingressroute
+kind: IngressRoute
+metadata:
+  name: forgejo-code
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    # https://doc.traefik.io/traefik/v3.1/routing/routers/#rule
+    # https://github.com/ai-robots-txt/ai.robots.txt
+    # https://github.com/anthmn/ai-bot-blocker
+    - match: Host(`code.forgejo.org`) && HeaderRegexp(`user-agent`, `(ClaudeBot|Bytespider|DataForSeoBot|SemrushBot|AhrefsBot|FriendlyCrawler|ImagesiftBot|GoogleBot|GoogleOther|bingbot|YandexBot)`)
+      kind: Rule
+      priority: 1000
+      services:
+        - name: noop@internal
+          kind: TraefikService
+      middlewares:
+        - name: forgejo-code-crawler-blocker
+    # Allow list
+    # hetzner01.forgejo.org 144.76.140.197 & 2a01:4f8:200:14ea::2
+    - match: Host(`code.forgejo.org`) && ( ClientIP(`144.76.140.197`) || ClientIP(`2a01:4f8:200:14ea::2`) )
+      kind: Rule
+      priority: 1000
+      services:
+        # Created by the Forgejo helm chart and named <releaseName>-http
+        - name: forgejo-code-http
+          port: http # forgejo http port on kubernetes service
+  tls:
+    secretName: tls-forgejo-code-ingress-http
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: forgejo-code-crawler-blocker
+spec:
+  ipAllowList:
+    sourceRange:
+      - 127.0.0.1/32
