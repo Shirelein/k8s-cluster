@@ -5,5 +5,5 @@ metadata:
 spec:
   # https://doc.traefik.io/traefik/v3.1/middlewares/http/ratelimit/
   rateLimit:
-    average: 10
-    burst: 20
+    average: 100
+    burst: 200
