@@ -40,6 +40,13 @@ spec:
         exposedPort: 22
         expose:
           default: true
+      ssh-code-invisible:
+        port: 2900
+        # https://github.com/traefik/traefik-helm-chart/blob/v32.1.1/traefik/values.yaml#L611-L614
+        # exposed means listens on the public IPs
+        exposedPort: 2900
+        expose:
+          default: true
       ssh-next:
         port: 2020
         # https://github.com/traefik/traefik-helm-chart/blob/v32.1.1/traefik/values.yaml#L611-L614

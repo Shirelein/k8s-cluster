@@ -1,0 +1,22 @@
+---
+# https://fluxcd.io/flux/components/helm/helmreleases/
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: forgejo-backup-code-invisible
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: ./flux/apps/charts/backup
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      interval: 12h
+  dependsOn:
+    - name: forgejo-code-invisible-pvc
+  values:
+    pvc: 'forgejo-code-invisible'
+  driftDetection:
+    mode: enabled
