@@ -1,3 +1,3 @@
-major: ''
+name: 'examplename'
 nfsServer: '10.53.101.100'
 capacity: '20Gi'

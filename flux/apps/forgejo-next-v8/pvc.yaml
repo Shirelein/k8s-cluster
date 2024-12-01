@@ -15,6 +15,6 @@ spec:
         namespace: flux-system
       interval: 12h
   values:
-    major: '8'
+    name: 'v8'
   driftDetection:
     mode: enabled
