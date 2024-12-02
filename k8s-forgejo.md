@@ -89,3 +89,7 @@ stringData:
 EOF
 $ kubectl apply --server-side -f forgejo-code-mailer.yaml
 ```
+
+### invisible.forgejo.org
+
+Similar to code.forgejo.org.

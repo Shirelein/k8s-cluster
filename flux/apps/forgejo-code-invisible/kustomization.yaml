@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: forgejo-code
+resources:
+  - pvc.yaml
+  - forgejo-code-invisible.yaml
+  - forgejo-route.yaml
+  - backup.yaml
