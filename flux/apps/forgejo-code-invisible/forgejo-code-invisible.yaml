@@ -74,7 +74,7 @@ spec:
     persistence:
       enabled: true
       create: false
-      claimName: forgejo-code-invisible-local
+      claimName: forgejo-code-local-invisible
 
     gitea:
       config:
