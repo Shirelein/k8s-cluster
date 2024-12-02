@@ -84,6 +84,7 @@ spec:
           ROOT_URL: https://invisible.forgejo.org/
           DOMAIN: invisible.forgejo.org
           SSH_DOMAIN: invisible.forgejo.org
+          SSH_PORT: '2900'
           LFS_START_SERVER: true
           OFFLINE_MODE: true
         service:
