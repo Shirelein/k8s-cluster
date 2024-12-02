@@ -8,7 +8,7 @@ metadata:
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
-    - ssh-code-invisible # name from traefik port
+    - ssh-invisible # name from traefik port
   routes:
     - match: HostSNI(`*`)
       services:
