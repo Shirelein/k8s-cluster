@@ -30,6 +30,17 @@
       "matchUpdateTypes": ["major"],
       "matchFileNames": ["flux/apps/forgejo-next/**", "flux/apps/forgejo-next-v{7,8}/**"],
       "enabled": false
+    },
+    {
+      "description": "automerge lockfile maintenance",
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "automerge": true
+    },
+    {
+      "description": "automerge some deps",
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": ["husky", "markdownlint-cli2", "pnpm"],
+      "automerge": true
     }
   ]
 }
