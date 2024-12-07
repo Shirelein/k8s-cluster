@@ -28,7 +28,6 @@ spec:
     image:
       registry: codeberg.org
       repository: forgejo/forgejo
-      tag: '9'
       rootless: false
 
     ingress:
