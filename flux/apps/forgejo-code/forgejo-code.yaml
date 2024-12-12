@@ -27,7 +27,7 @@ spec:
 
     image:
       registry: codeberg.org
-      repository: forgejo/forgejo
+      repository: forgejo-experimental/forgejo
       rootless: false
 
     ingress:
