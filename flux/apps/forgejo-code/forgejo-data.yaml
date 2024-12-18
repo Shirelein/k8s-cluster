@@ -1,0 +1,56 @@
+---
+# https://cert-manager.io/docs/usage/certificate/#creating-certificate-resources
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tls-forgejo-data-ingress-http
+spec:
+  secretName: tls-forgejo-data-ingress-http
+
+  privateKey:
+    algorithm: ECDSA
+    size: 384
+
+  usages:
+    - digital signature
+    - key encipherment
+
+  dnsNames:
+    - data.forgejo.org
+
+  issuerRef:
+    name: letsencrypt-http
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+# https://doc.traefik.io/traefik/v3.1/routing/providers/kubernetes-crd/#kind-ingressroute
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: forgejo-data
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - websecure # name from traefik port
+  tls:
+    secretName: tls-forgejo-data-ingress-http
+  routes:
+    - match: Host(`data.forgejo.org`)
+      kind: Rule
+      priority: 1000
+      services:
+        - name: noop@internal
+          kind: TraefikService
+      middlewares:
+        - name: forgejo-data-redirect
+---
+# https://doc.traefik.io/traefik/middlewares/http/redirectregex/
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: forgejo-data-redirect
+spec:
+  redirectRegex:
+    regex: ^https://data\.forgejo\.org/(.*)
+    replacement: https://code.forgejo.org/${1}
